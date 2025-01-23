@@ -1,6 +1,5 @@
 import React from "react";
 import SidebarItem from "./SidebarItem";
-import logo from '../assets/logo.jpg';
 
 const Sidebar = () => {
   const menuItems = [
@@ -33,24 +32,24 @@ const Sidebar = () => {
   return (
     <aside className="w-60 h-screen bg-white text-black flex flex-col ">
       {/* โลโก้และปุ่ม */}
-      <div className="p-6 flex items-center justify-between">
+      <div className="static h-20 flex items-center /*justify-between*/ bg-[#5E17EB]">
         <h1 className="text-2xl font-bold tracking-wide">
-            <img src="logo.jpg" />
+            <img className="" src="src/assets/logo.svg" />
         </h1>
-        <span className="material-icons text-lg cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+        <span className="material-icons text-lg cursor-pointer text-white p-"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
 </svg>
 </span>
       </div>
 
       {/* คำขอ */}
-      <div className="flex items-center bg-[#5E17EB]  text-white   px-6 py-3 " >
+      <div className="flex items-center bg-[#5E17EB]  text-white px-6 py-5 " >
         <span className="material-icons mr-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z" />
 </svg>
 </span>
-        <span className="text-sm">คำขอ</span>
-        <span className="ml-auto bg-white text-purple-700 text-xs px-2 py-1 rounded-md">2</span>
+        <span className="text-sm bg-[#5E17EB]">คำขอ</span>
+        <span className="ml-auto bg-white text-[#5E17EB] text-xs px-2 py-1 rounded-md">2</span>
       </div>
 
       {/* เมนู */}
