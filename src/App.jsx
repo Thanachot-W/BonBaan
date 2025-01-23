@@ -1,7 +1,7 @@
 import React from "react";
-import Sidebar from "./Components/Sidebar";
-import Header from "./Components/Header";
-import Content from "./Components/Content";
+import Sidebar from "./components/layout/Sidebar";
+import Header from "./components/layout/Header";
+import Content from "./pages/Content";
 
 const App = () => {
   return (
