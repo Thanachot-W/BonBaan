@@ -22,7 +22,17 @@ export default {
           "--p": "48.23% 0.2694 285.02",
           ".input-bordered": {
             "border-color": "#CECCD5"
-          }
+          },
+          ".input-md": {
+            "height": "2.5rem"
+          },
+          ".btn": {
+            "font-weight": "500"
+          },
+          ".btn-md": {
+            "height": "2.5rem",
+            "min-height": "2.5rem"
+          },
         },
       }
     ]
