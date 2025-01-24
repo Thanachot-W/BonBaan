@@ -8,9 +8,6 @@ export default {
     
     extend: {
       
-      fontFamily:{
-        notosans: ["Noto Sans", "san-serif"],
-      }
     },
   },
   plugins: [require('daisyui')],
