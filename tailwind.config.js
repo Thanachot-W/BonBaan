@@ -4,13 +4,6 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  theme: {
-    extend: {
-      fontFamily:{
-        notosans: ["Noto Sans", "san-serif"],
-      }
-    },
-  },
   plugins: [require('daisyui')],
   daisyui: {
     themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
@@ -27,7 +20,19 @@ export default {
           ...require("daisyui/src/theming/themes")["light"],
           "--b1": "96.23% 0.0121 296.35",
           "--p": "48.23% 0.2694 285.02",
-          "--border": "84.95% 0.0125 296.31"
+          ".input-bordered": {
+            "border-color": "#CECCD5"
+          },
+          ".input-md": {
+            "height": "2.5rem"
+          },
+          ".btn": {
+            "font-weight": "500"
+          },
+          ".btn-md": {
+            "height": "2.5rem",
+            "min-height": "2.5rem"
+          },
         },
       }
     ]
