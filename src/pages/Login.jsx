@@ -12,7 +12,7 @@ const Login = () => {
             <label htmlFor="password" className="label-text">รหัสผ่าน</label>
             <input id="password" type="password" className="input input-md input-bordered bg-white rounded-md"/>
           </div>
-          <button type="submit" className="btn btn-md btn-primary">เข้าสู่ระบบ</button>
+          <button id="submit-login" type="submit" className="btn btn-md btn-primary">เข้าสู่ระบบ</button>
         </div>
       </div>
     </div>
