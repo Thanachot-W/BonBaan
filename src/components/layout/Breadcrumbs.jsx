@@ -2,10 +2,9 @@ import { Link, useLocation } from "react-router";
 
 const Breadcrumbs = () => {
   const location = useLocation();
-
   let currentLink = ""
 
-  const crumbs = location.pathname.split('/')
+  const crumbs = decodeURIComponent(location.pathname).split('/')
     .filter(crumb => crumb !== "")
     .map(crumb => {
       currentLink += `/${crumb}`;
@@ -20,7 +19,7 @@ const Breadcrumbs = () => {
     });
   
   return (
-    <div class="breadcrumbs text-sm">
+    <div className="breadcrumbs p-0">
       <ul>
         {crumbs}
       </ul>

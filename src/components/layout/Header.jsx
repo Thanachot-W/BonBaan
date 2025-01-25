@@ -3,7 +3,7 @@ import Breadcrumbs from "./Breadcrumbs";
 
 const Header = ({ title }) => {
   return (
-    <header className="p-4 bg-white shadow-md">
+    <header className="py-4 px-8 bg-white shadow-md">
       <Breadcrumbs />
     </header>
   );
