@@ -5,3 +5,17 @@
 :root {
   font-family: "Noto Sans Thai", serif;
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    --border: #CECCD5;
+  }
+}
+
+.lucide {
+  color: white;
+  width: 20px;
+  height: 20px;
+  stroke-width: 2px;
+}
