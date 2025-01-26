@@ -1,10 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  plugins: [require('daisyui')],
+  darkMode: ["class"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  plugins: [require("daisyui"), require("tailwindcss-animate")],
   daisyui: {
     themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "light", // name of one of the included themes for dark mode
@@ -20,22 +18,33 @@ export default {
           ...require("daisyui/src/theming/themes")["light"],
           "--b1": "96.23% 0.0121 296.35",
           "--p": "48.23% 0.2694 285.02",
+          "--fallback-pc": "#ffffff",
+          "--fallback-er": "#DE3D3D",
           ".input-bordered": {
-            "border-color": "#CECCD5"
+            "border-color": "#CECCD5",
           },
           ".input-md": {
-            "height": "2.5rem"
+            height: "2.5rem",
           },
           ".btn": {
-            "font-weight": "500"
+            "font-weight": "500",
           },
           ".btn-md": {
-            "height": "2.5rem",
-            "min-height": "2.5rem"
+            height: "2.5rem",
+            "min-height": "2.5rem",
           },
         },
-      }
-    ]
+      },
+    ],
   },
-}
-
+  theme: {
+    extend: {
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)'
+      },
+      colors: {}
+    }
+  }
+};

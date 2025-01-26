@@ -3,6 +3,8 @@ import Layout from "../components/layout/Layout";
 import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
+import ServicesPage from "../pages/ServicesPage";
+import InsertServicesPage from "../pages/InsertServicePage";
 
 const router = createBrowserRouter([
   {
@@ -12,15 +14,11 @@ const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      {
-        element: <Layout />,
-        children: [
-          {
-            path: '/home',
-            element: <HomePage />
-          }
-        ]
-      }
+      { element: <Layout />, children: [
+          { path: '/หน้าหลัก', element: <HomePage /> },
+          { path: '/บริการ', element: <ServicesPage /> },
+          { path: '/บริการ/สร้างบริการใหม่', element: <InsertServicesPage /> }
+        ]}
     ]
   }
 ]);
