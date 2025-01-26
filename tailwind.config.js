@@ -20,6 +20,7 @@ export default {
           "--p": "48.23% 0.2694 285.02",
           "--fallback-pc": "#ffffff",
           "--fallback-er": "#DE3D3D",
+          "--gray": "5B5471",
           ".input-bordered": {
             "border-color": "#CECCD5",
           },
@@ -40,11 +41,22 @@ export default {
   theme: {
     extend: {
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
-      colors: {}
-    }
-  }
+      colors: {
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
+      },
+    },
+  },
 };
