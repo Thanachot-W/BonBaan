@@ -1,30 +1,29 @@
-import { Link, useLocation } from "react-router";
+import { Link, useMatches } from "react-router";
 
 const Breadcrumbs = () => {
-  const location = useLocation();
-  let currentLink = ""
+  const matches = useMatches();
 
-  const crumbs = decodeURIComponent(location.pathname).split('/')
-    .filter(crumb => crumb !== "")
-    .map(crumb => {
-      currentLink += `/${crumb}`;
+  const crumbs = matches.reduce((result, match) => {
+    if (match.handle) {
+      result.push({
+        path: match.pathname,
+        name: match.handle.crumb()
+      });
+    }
+    return result;
+  }, []);
 
-      return (
-        <li key={crumb}>
-          <Link to={currentLink}>
-            {crumb}
-          </Link>
-        </li>
-      );
-    });
-  
   return (
     <div className="breadcrumbs p-0">
       <ul>
-        {crumbs}
+        {crumbs.map((crumb) => (
+          <li key={crumb.path}>
+            <Link to={crumb.path}>{crumb.name}</Link>
+          </li>
+        ))}
       </ul>
     </div>
   );
-}
+};
 
 export default Breadcrumbs;

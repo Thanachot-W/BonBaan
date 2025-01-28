@@ -3,7 +3,6 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -16,32 +15,32 @@ import { Link } from "react-router";
 const items = [
   {
     title: "หน้าหลัก",
-    url: "/หน้าหลัก",
+    url: "/home",
     icon: House,
   },
   {
     title: "คำสั่งซื้อ",
-    url: "/คำสั่งซื้อ",
+    url: "/orders",
     icon: ShoppingBag,
   },
   {
     title: "บริการ",
-    url: "/บริการ",
+    url: "/services",
     icon: Package,
   },
   {
     title: "พูดคุย",
-    url: "/พูดคุย",
+    url: "/chat",
     icon: MessageCircle,
   },
   {
     title: "ผู้ใช้",
-    url: "/ผู้ใช้",
+    url: "/users",
     icon: User,
   },
   {
     title: "ชำระเงิน",
-    url: "/ชำระเงิน",
+    url: "/payment",
     icon: CreditCard,
   },
 ];

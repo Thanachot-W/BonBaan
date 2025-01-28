@@ -1,8 +1,8 @@
-const InsertServicesPage = () => {
+const InsertServicePage = () => {
   return (
     <div>
     </div>
   );
 };
 
-export default InsertServicesPage;
+export default InsertServicePage;
