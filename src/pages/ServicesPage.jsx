@@ -46,7 +46,7 @@ const ServicesPage = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex">
-        <Link to={"./สร้างบริการใหม่"} className="btn btn-primary btn-md">
+        <Link to={"./insert"} className="btn btn-primary btn-md">
           <Plus />
           เพิ่มบริการใหม่
         </Link>

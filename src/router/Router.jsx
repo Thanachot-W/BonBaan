@@ -4,23 +4,49 @@ import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import ServicesPage from "../pages/ServicesPage";
-import InsertServicesPage from "../pages/InsertServicePage";
+import InsertServicePage from "../pages/InsertServicePage";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Login />
+    path: "/",
+    element: <Login />,
   },
   {
     element: <ProtectedRoute />,
     children: [
-      { element: <Layout />, children: [
-          { path: '/หน้าหลัก', element: <HomePage /> },
-          { path: '/บริการ', element: <ServicesPage /> },
-          { path: '/บริการ/สร้างบริการใหม่', element: <InsertServicesPage /> }
-        ]}
-    ]
-  }
+      {
+        element: <Layout />,
+        children: [
+          {
+            path: "/home",
+            element: <HomePage />,
+            handle: {
+              crumb: () => "หน้าหลัก",
+            },
+          },
+          {
+            path: "/services",
+            handle: {
+              crumb: () => "บริการ",
+            },
+            children: [
+              {
+                index: true,
+                element: <ServicesPage />,
+              },
+              {
+                path: "/services/insert",
+                element: <InsertServicePage />,
+                handle: {
+                  crumb: () => "สร้างบริการใหม่",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ]);
 
 export default router;
