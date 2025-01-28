@@ -296,7 +296,7 @@ const SidebarHeader = React.forwardRef(({ className, ...props }, ref) => {
     (<div
       ref={ref}
       data-sidebar="header"
-      className={cn("flex flex-col gap-4 p-4 bg-sidebar-accent-foreground", className)}
+      className={cn("flex flex-col gap-4 p-2 bg-sidebar-accent-foreground", className)}
       {...props} />)
   );
 })
@@ -511,11 +511,11 @@ const SidebarMenuBadge = React.forwardRef(({ className, ...props }, ref) => (
     ref={ref}
     data-sidebar="menu-badge"
     className={cn(
-      "absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground select-none pointer-events-none",
+      "absolute right-2 flex h-5 min-w-5 items-center justify-center rounded-md px-2 text-sm font-medium tabular-nums text-sidebar-foreground select-none pointer-events-none",
       "peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground",
-      "peer-data-[size=sm]/menu-button:top-1",
-      "peer-data-[size=default]/menu-button:top-1.5",
-      "peer-data-[size=lg]/menu-button:top-2.5",
+      "peer-data-[size=sm]/menu-button:top-2",
+      "peer-data-[size=default]/menu-button:top-3.5",
+      "peer-data-[size=lg]/menu-button:top-3.5",
       "group-data-[collapsible=icon]:hidden",
       className
     )}
