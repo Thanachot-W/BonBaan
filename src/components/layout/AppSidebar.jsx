@@ -10,6 +10,12 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
+import {
   Package,
   House,
   ShoppingBag,
@@ -17,14 +23,14 @@ import {
   User,
   CreditCard,
   Inbox,
+  ChevronRight,
+  LogOut,
 } from "lucide-react";
 import { Link } from "react-router";
 import { SidebarMenuBadge } from "../ui/sidebar";
 
 const menuItems = {
-  header: [
-    { title: "คำขอ", url: "/inbox", icon: Inbox },
-  ],
+  header: [{ title: "คำขอ", url: "/inbox", icon: Inbox }],
   content: [
     { title: "หน้าหลัก", url: "/home", icon: House },
     { title: "คำสั่งซื้อ", url: "/orders", icon: ShoppingBag },
@@ -33,6 +39,7 @@ const menuItems = {
     { title: "ผู้ใช้", url: "/users", icon: User },
     { title: "ชำระเงิน", url: "/payment", icon: CreditCard },
   ],
+  footer: [{ title: "ออกจากระบบ", url: "/logout", icon: LogOut }],
 };
 
 const AppSidebar = () => {
@@ -74,7 +81,41 @@ const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <User size={32} color="#5B5471" /> Username
+                  <ChevronRight className="ml-auto" size={32} color="#5B5471" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="right"
+                sideOffset={16}
+                className="z-50 min-w-32 overflow-hidden rounded-md bg-white p-1 text-neutral-950 shadow-md
+                data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 slide-in-from-left-2"
+              >
+                {menuItems.footer.map((item) => (
+                  <DropdownMenuItem
+                    asChild
+                    key={item.url}
+                    className="text-[--w] relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0"
+                  >
+                    <SidebarMenuButton asChild>
+                      <Link to={item.url}>
+                        <item.icon size={24} color="#5B5471" />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 };
