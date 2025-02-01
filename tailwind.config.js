@@ -20,7 +20,7 @@ export default {
           "--p": "48.23% 0.2694 285.02",
           "--fallback-pc": "#ffffff",
           "--fallback-er": "#DE3D3D",
-          "--gray": "5B5471",
+          "--gray": "#5B5471",
           ".input-bordered": {
             "border-color": "#CECCD5",
           },
@@ -29,6 +29,7 @@ export default {
           },
           ".btn": {
             "font-weight": "500",
+            "animation": "none"
           },
           ".btn-md": {
             height: "2.5rem",
