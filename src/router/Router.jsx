@@ -12,6 +12,7 @@ import InboxPage from "../pages/InboxPage";
 import ChatsPage from "../pages/ChatsPage";
 import UsersPage from "../pages/UsersPage";
 import PaymentPage from "../pages/PaymentPage";
+import LogoutPage from "../pages/LogoutPage";
 
 const router = createBrowserRouter([
   {
