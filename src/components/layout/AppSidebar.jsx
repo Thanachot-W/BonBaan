@@ -8,6 +8,9 @@ import {
   SidebarMenuItem,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
+  SidebarMenuSub,
 } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
@@ -26,23 +29,35 @@ import {
   ChevronRight,
   LogOut,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { SidebarMenuBadge } from "../ui/sidebar";
 
 const menuItems = {
   header: [{ title: "คำขอ", url: "/inbox", icon: Inbox }],
   content: [
-    { title: "หน้าหลัก", url: "/home", icon: House },
-    { title: "คำสั่งซื้อ", url: "/orders", icon: ShoppingBag },
-    { title: "บริการ", url: "/services", icon: Package },
-    { title: "พูดคุย", url: "/chat", icon: MessageCircle },
-    { title: "ผู้ใช้", url: "/users", icon: User },
-    { title: "ชำระเงิน", url: "/payment", icon: CreditCard },
+    { title: "หน้าหลัก", url: "/home", icon: House, subMenu: [] },
+    { title: "คำสั่งซื้อ", url: "/orders", icon: ShoppingBag, subMenu: [] },
+    {
+      title: "บริการ",
+      url: "/services",
+      icon: Package,
+      subMenu: [
+        { title: "บริการทั้งหมด", url: "/services", hasChild: false },
+        { title: "เพิ่มบริการ", url: "/services/insert" },
+        { title: "หมวดหมู่", url: "/services/categories" },
+        { title: "รีวิว", url: "/services/reviews" },
+      ],
+    },
+    { title: "พูดคุย", url: "/chat", icon: MessageCircle, subMenu: [] },
+    { title: "ผู้ใช้", url: "/users", icon: User, subMenu: [] },
+    { title: "ชำระเงิน", url: "/payment", icon: CreditCard, subMenu: [] },
   ],
   footer: [{ title: "ออกจากระบบ", url: "/logout", icon: LogOut }],
 };
 
 const AppSidebar = () => {
+  const location = useLocation().pathname;
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -52,9 +67,13 @@ const AppSidebar = () => {
         <SidebarMenu>
           {menuItems.header.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild className="text-white">
+              <SidebarMenuButton
+                asChild
+                className="text-white stroke-white"
+                isActive={location.includes(item.url) ? true : false}
+              >
                 <Link to={item.url}>
-                  <item.icon size={32} color="white" />
+                  <item.icon size={32} />
                   <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
@@ -69,12 +88,39 @@ const AppSidebar = () => {
             <SidebarMenu>
               {menuItems.content.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={location.includes(item.url) ? true : false}
+                  >
                     <Link to={item.url}>
                       <item.icon size={32} color="#5B5471" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
+                  {location.includes(item.url) ? (
+                    <SidebarMenuSub>
+                      {item.subMenu.map((subItem) => (
+                        <SidebarMenuSubItem key={subItem.title}>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={
+                              location.includes(subItem.url) &&
+                              (subItem.hasChild ||
+                                location.endsWith(subItem.url))
+                                ? true
+                                : false
+                            }
+                          >
+                            <Link to={subItem.url}>
+                              <span>{subItem.title}</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  ) : (
+                    <></>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

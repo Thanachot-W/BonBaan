@@ -417,9 +417,10 @@ const sidebarMenuButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:stroke-sidebar-accent-foreground",
         outline:
           "bg-white shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))] dark:bg-neutral-950",
+        active: "bg-sidebar-accent text-sidebar-accent-foreground [&>*]:stroke-sidebar-accent-foreground [&>*]:font-normal"
       },
       size: {
         default: "text-base",
@@ -448,6 +449,7 @@ const SidebarMenuButton = React.forwardRef((
 ) => {
   const Comp = asChild ? Slot : "button"
   const { isMobile, state } = useSidebar()
+  variant = isActive ? "active" : variant
 
   const button = (
     <Comp
@@ -556,7 +558,7 @@ const SidebarMenuSub = React.forwardRef(({ className, ...props }, ref) => (
     ref={ref}
     data-sidebar="menu-sub"
     className={cn(
-      "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5",
+      "flex min-w-0 translate-x-px flex-col gap-1 bg-neutral-100 rounded-md text-base",
       "group-data-[collapsible=icon]:hidden",
       className
     )}
@@ -578,11 +580,10 @@ const SidebarMenuSubButton = React.forwardRef(
         data-size={size}
         data-active={isActive}
         className={cn(
-          "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
-          "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
-          size === "sm" && "text-xs",
-          size === "md" && "text-sm",
+          "flex min-w-0 -translate-x-px items-center gap-2 overflow-hidden border-l-transparent hover:border-l-[--sidebar-accent-foreground] border-l-4 px-6 py-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:text-sidebar-accent-foreground focus-visible:ring-2 active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
+          "data-[active=true]:text-sidebar-accent-foreground",
           "group-data-[collapsible=icon]:hidden",
+          isActive && "border-l-[--sidebar-accent-foreground]",
           className
         )}
         {...props} />)

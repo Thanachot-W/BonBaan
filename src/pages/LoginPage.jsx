@@ -1,4 +1,4 @@
-const Login = () => {
+const LoginPage = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <div  className="flex flex-col items-center gap-8">
@@ -19,4 +19,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
