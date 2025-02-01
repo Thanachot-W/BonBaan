@@ -41,10 +41,23 @@ const ServicesCategoriesPage = () => {
   const [page, setPage] = useState(1);
 
   return (
-    <div className="flex flex gap-4">
-      <div className="flex flex-col gap-2 w-96">
+    <div className="flex gap-8">
+      <div className="flex flex-col w-96 gap-8">
         <h3>เพิ่มหมวดหมู่ใหม่</h3>
-        {/* inputform */}
+        <div className="flex form-control gap-6">
+          <div className="flex flex-col gap-1">
+            <label htmlFor="username" className="label-text">ชื่อหมวดหมู่</label>
+            <input id="categoryName" type="text" className="input input-sm input-bordered bg-white rounded-md"/>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="password" className="label-text">Slug</label>
+            <input id="categorySlug" type="text" className="input input-sm input-bordered bg-white rounded-md"/>
+          </div>
+          <div>
+          <button id="submit-login" type="submit" className="btn btn-md btn-primary">เพิ่มหมวดหมู่ใหม่</button>
+          </div>
+          
+        </div>
       </div>
       <div className="flex flex-col gap-2 w-full ">
         <Table>

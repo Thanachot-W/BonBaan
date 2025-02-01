@@ -27,6 +27,9 @@ export default {
           ".input-md": {
             height: "2.5rem",
           },
+          ".input-sm": {
+            height: "2rem",
+          },
           ".btn": {
             "font-weight": "500",
             "animation": "none"
@@ -38,7 +41,7 @@ export default {
           "h3": {
             "font-size": "1.25rem",
             "font-weight": "bold"
-          }
+          },
         },
       },
     ],
