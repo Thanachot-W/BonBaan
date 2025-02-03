@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/pagination";
 import { EditLink, DeleteLink } from "../components/shared/link";
 import { useState } from "react";
+import CategoryForm from "../components/form/categoryForm";
 
 // TODO: get data from api
 
@@ -26,7 +27,6 @@ const response = {
   data: [
     {
       name: "Test",
-      slug: "test",
       count: 0,
       lastUpdateAt: Date.now(),
     },
@@ -44,27 +44,13 @@ const ServicesCategoriesPage = () => {
     <div className="flex gap-8">
       <div className="flex flex-col w-96 gap-8">
         <h3>เพิ่มหมวดหมู่ใหม่</h3>
-        <div className="flex form-control gap-6">
-          <div className="flex flex-col gap-1">
-            <label htmlFor="username" className="label-text">ชื่อหมวดหมู่</label>
-            <input id="categoryName" type="text" className="input input-sm input-bordered bg-white rounded-md"/>
-          </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="label-text">Slug</label>
-            <input id="categorySlug" type="text" className="input input-sm input-bordered bg-white rounded-md"/>
-          </div>
-          <div>
-          <button id="submit-login" type="submit" className="btn btn-md btn-primary">เพิ่มหมวดหมู่ใหม่</button>
-          </div>
-          
-        </div>
+        <CategoryForm />
       </div>
       <div className="flex flex-col gap-2 w-full ">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>ชื่อหมวดหมู่</TableHead>
-              <TableHead>Slug</TableHead>
               <TableHead>จำนวน</TableHead>
               <TableHead>วันที่แก้ไขล่าสุด</TableHead>
             </TableRow>
@@ -76,7 +62,6 @@ const ServicesCategoriesPage = () => {
                   <EditLink to={""} />
                   <DeleteLink to={""} />
                 </TableActionCell>
-                <TableCell>{row.slug}</TableCell>
                 <TableCell>{row.count}</TableCell>
                 <TableCell>{row.lastUpdateAt}</TableCell>
               </TableRow>
