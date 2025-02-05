@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
   TableActionCell,
+  TableFormCell,
 } from "@/components/ui/table";
 import {
   Pagination,
@@ -17,9 +18,12 @@ import {
   PaginationLast,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { EditLink, DeleteLink } from "../components/shared/link";
+import { DeleteLink } from "../components/shared/link";
 import { useState } from "react";
-import CategoryForm from "../components/form/categoryForm";
+import {
+  CreateCategoryForm,
+  EditCategoryForm,
+} from "../components/form/categoryForm";
 
 // TODO: get data from api
 
@@ -27,6 +31,11 @@ const response = {
   data: [
     {
       name: "Test",
+      count: 0,
+      lastUpdateAt: Date.now(),
+    },
+    {
+      name: "Test2",
       count: 0,
       lastUpdateAt: Date.now(),
     },
@@ -39,12 +48,13 @@ const response = {
 
 const ServicesCategoriesPage = () => {
   const [page, setPage] = useState(1);
+  const [editedRow, setEditedRow] = useState("");
 
   return (
     <div className="flex gap-8">
       <div className="flex flex-col w-96 gap-8">
         <h3>เพิ่มหมวดหมู่ใหม่</h3>
-        <CategoryForm />
+        <CreateCategoryForm />
       </div>
       <div className="flex flex-col gap-2 w-full ">
         <Table>
@@ -58,12 +68,32 @@ const ServicesCategoriesPage = () => {
           <TableBody>
             {response.data.map((row, index) => (
               <TableRow key={index}>
-                <TableActionCell title={row.name}>
-                  <EditLink to={""} />
-                  <DeleteLink to={""} />
-                </TableActionCell>
-                <TableCell>{row.count}</TableCell>
-                <TableCell>{row.lastUpdateAt}</TableCell>
+                {editedRow === index ? (
+                  <TableFormCell
+                    colSpan={3}
+                    title="แก้ไขหมวดหมู่"
+                    form={
+                      <EditCategoryForm
+                        name={row.name}
+                        onCancel={() => setEditedRow("")}
+                      />
+                    }
+                  />
+                ) : (
+                  <>
+                    <TableActionCell title={row.name}>
+                      <button
+                        className="btn btn-link p-0 h-min min-h-min"
+                        onClick={() => setEditedRow(index)}
+                      >
+                        แก้ไข
+                      </button>
+                      <DeleteLink to={""} />
+                    </TableActionCell>
+                    <TableCell>{row.count}</TableCell>
+                    <TableCell>{row.lastUpdateAt}</TableCell>
+                  </>
+                )}
               </TableRow>
             ))}
           </TableBody>

@@ -18,18 +18,18 @@ const formSchema = z.object({
   }),
 });
 
-const CategoryForm = () => {
+export const CreateCategoryForm = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-    }
+      name: "",
+    },
   });
 
   const onSubmit = (values) => {
     console.log(values);
     // call api
-  }
+  };
 
   return (
     <Form {...form}>
@@ -45,13 +45,49 @@ const CategoryForm = () => {
               </FormControl>
               <FormMessage />
             </FormItem>
-            
           )}
         />
         <Button type="submit">เพิ่มหมวดหมู่ใหม่</Button>
       </form>
     </Form>
   );
-}
+};
 
-export default CategoryForm;
+export const EditCategoryForm = ({ name, onCancel }) => {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: name,
+    },
+  });
+
+  const onSubmit = (values) => {
+    console.log(values);
+    // call api
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex gap-2">
+          <Button type="submit">แก้ไขชื่อหมวดหมู่</Button>
+          <Button variant="destructive" onClick={() => onCancel()}>
+            ยกเลิก
+          </Button>
+        </div>
+      </form>
+    </Form>
+  );
+};
