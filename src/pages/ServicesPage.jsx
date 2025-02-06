@@ -21,6 +21,7 @@ import { EditLink, DeleteLink } from "../components/shared/link";
 import { Plus } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
+import { DeleteConfirmationAlert } from "../components/shared/alert";
 
 // TODO: get data from api
 // TODO: sorting and filtering
@@ -28,28 +29,32 @@ import { useState } from "react";
 const response = {
   data: [
   {
+    id: "e24d56a2-152d-4053-988d-dcaadeec966f",
     img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
     title: "test",
     category: "test",
-    lastUpdateAt: Date.now(),
+    lastUpdateAt: new Date(Date.now()).toLocaleString(),
   },
   {
+    id: "52a2adb6-1a90-44eb-aacb-4d7af9d76791",
     img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
     title: "test",
     category: "test",
-    lastUpdateAt: Date.now(),
+    lastUpdateAt: new Date(Date.now()).toLocaleString(),
   },
   {
+    id: "db7aedd1-6c64-4ea3-b48c-5f1bf47ef309",
     img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
     title: "test",
     category: "test",
-    lastUpdateAt: Date.now(),
+    lastUpdateAt: new Date(Date.now()).toLocaleString(),
   },
   {
+    id: "a774aa3f-e382-4661-9867-e76a13262c7c",
     img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
     title: "test",
     category: "test",
-    lastUpdateAt: Date.now(),
+    lastUpdateAt: new Date(Date.now()).toLocaleString(),
   },
 ],
 totalPage: 2,
@@ -59,6 +64,11 @@ pageSize: 4};
 
 const ServicesPage = () => {
   const [page, setPage] = useState(1);
+
+  const deleteService = (id) => {
+    console.log("DELETE:", id);
+    // call DELETE API
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -89,8 +99,8 @@ const ServicesPage = () => {
                 />
               </TableCell>
               <TableActionCell title={row.title}>
-                <EditLink to={""} />
-                <DeleteLink to={""} />
+                <EditLink to={`/services/${row.id}`} />
+                <DeleteConfirmationAlert title={row.title} onConfirm={() => deleteService(row.id)}/>
               </TableActionCell>
               <TableCell>{row.category}</TableCell>
               <TableCell>{row.lastUpdateAt}</TableCell>

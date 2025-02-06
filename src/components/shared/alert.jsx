@@ -11,7 +11,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-const ConfirmDeletionAlert = React.forwardRef(({ title, className, onConfirm, ...props }, ref) => (
+const DeleteConfirmationAlert = React.forwardRef(({ title, className, onConfirm, ...props }, ref) => (
   <AlertDialog className={className} {...props} ref={ref}>
     <AlertDialogTrigger className="btn btn-link p-0 h-min min-h-min text-error">ลบ</AlertDialogTrigger>
     <AlertDialogContent>
@@ -29,4 +29,4 @@ const ConfirmDeletionAlert = React.forwardRef(({ title, className, onConfirm, ..
   </AlertDialog>
 ));
 
-export {ConfirmDeletionAlert}
+export {DeleteConfirmationAlert}

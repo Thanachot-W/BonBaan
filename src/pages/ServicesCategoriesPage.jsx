@@ -23,7 +23,7 @@ import {
   CreateCategoryForm,
   EditCategoryForm,
 } from "../components/form/category-form";
-import { ConfirmDeletionAlert } from "../components/shared/alert";
+import { DeleteConfirmationAlert } from "../components/shared/alert";
 
 // TODO: get data from api
 
@@ -48,13 +48,13 @@ const response = {
   pageSize: 4,
 };
 
-const deleteCategory = (id) => {
-  console.log("DELETE:", id);
-}
-
 const ServicesCategoriesPage = () => {
   const [page, setPage] = useState(1);
   const [editedRow, setEditedRow] = useState("");
+
+  const deleteCategory = (id) => {
+    console.log("DELETE:", id);
+  }
 
   return (
     <div className="flex gap-8">
@@ -94,7 +94,7 @@ const ServicesCategoriesPage = () => {
                       >
                         แก้ไข
                       </button>
-                      <ConfirmDeletionAlert title={row.name} onConfirm={() => deleteCategory(row.id)}/>
+                      <DeleteConfirmationAlert title={row.name} onConfirm={() => deleteCategory(row.id)}/>
                     </TableActionCell>
                     <TableCell>{row.count}</TableCell>
                     <TableCell>{row.lastUpdateAt}</TableCell>
