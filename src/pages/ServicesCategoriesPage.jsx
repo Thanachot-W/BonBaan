@@ -18,23 +18,25 @@ import {
   PaginationLast,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { DeleteLink } from "../components/shared/link";
 import { useState } from "react";
 import {
   CreateCategoryForm,
   EditCategoryForm,
 } from "../components/form/category-form";
+import { ConfirmDeletionAlert } from "../components/shared/alert";
 
 // TODO: get data from api
 
 const response = {
   data: [
     {
+      id: "1234",
       name: "Test",
       count: 0,
       lastUpdateAt: Date.now(),
     },
     {
+      id: "1235",
       name: "Test2",
       count: 0,
       lastUpdateAt: Date.now(),
@@ -45,6 +47,10 @@ const response = {
   totalRecord: 4,
   pageSize: 4,
 };
+
+const deleteCategory = (id) => {
+  console.log("DELETE:", id);
+}
 
 const ServicesCategoriesPage = () => {
   const [page, setPage] = useState(1);
@@ -67,7 +73,7 @@ const ServicesCategoriesPage = () => {
           </TableHeader>
           <TableBody>
             {response.data.map((row, index) => (
-              <TableRow key={index}>
+              <TableRow key={row.id}>
                 {editedRow === index ? (
                   <TableFormCell
                     colSpan={3}
@@ -88,7 +94,7 @@ const ServicesCategoriesPage = () => {
                       >
                         แก้ไข
                       </button>
-                      <DeleteLink to={""} />
+                      <ConfirmDeletionAlert title={row.name} onConfirm={() => deleteCategory(row.id)}/>
                     </TableActionCell>
                     <TableCell>{row.count}</TableCell>
                     <TableCell>{row.lastUpdateAt}</TableCell>
