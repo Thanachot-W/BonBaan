@@ -18,7 +18,7 @@ const formSchema = z.object({
   }),
 });
 
-export const CreateCategoryForm = () => {
+const CreateCategoryForm = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,7 +53,7 @@ export const CreateCategoryForm = () => {
   );
 };
 
-export const EditCategoryForm = ({ name, onCancel }) => {
+const EditCategoryForm = ({ name, onCancel }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -91,3 +91,5 @@ export const EditCategoryForm = ({ name, onCancel }) => {
     </Form>
   );
 };
+
+export { CreateCategoryForm, EditCategoryForm }
