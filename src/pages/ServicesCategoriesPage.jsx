@@ -23,7 +23,7 @@ import { useState } from "react";
 import {
   CreateCategoryForm,
   EditCategoryForm,
-} from "../components/form/categoryForm";
+} from "../components/form/category-form";
 
 // TODO: get data from api
 
