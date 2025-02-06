@@ -19,7 +19,8 @@ const buttonVariants = cva(
           "bg-neutral-100 text-neutral-900 hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80",
         ghost: "hover:bg-neutral-100 hover:text-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-neutral-50",
         link: "text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50",
-        disabled: "pointer-events-none bg-transparent shadow-none"
+        disabled: "pointer-events-none bg-transparent shadow-none",
+        icon: "p-0 [&>svg]:stroke-neutral-800"
       },
       size: {
         default: "btn-md h-9 px-4 py-2",
