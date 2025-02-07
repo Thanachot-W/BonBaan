@@ -8,15 +8,14 @@ import {
   FormField,
   FormItem,
   FormMessage,
-  FormLabel
+  FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CollapsibleInput from "../shared/CollapsibleInput";
 import { Textarea } from "@/components/ui/textarea";
 import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "../../constants/files";
 import { useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox"
-
+import { Checkbox } from "@/components/ui/checkbox";
 
 const categories = [
   {
@@ -37,7 +36,13 @@ const formSchema = z.object({
   name: z.string().nonempty({
     message: "กรุณากำหนดชื่อของบริการ",
   }),
-  description: z.string(),
+  description: z.string().nonempty({
+    message: "กรุณากำหนดคำอธิบายของบริการ",
+  }),
+  location: z.string().nonempty({
+    message: "กรุณากำหนดสถานที่ของบริการ",
+  }),
+  customable: z.boolean(),
   images: z
     .instanceof(FileList, { message: "กรุณากำหนดรูปภาพ" })
     .refine(
@@ -64,6 +69,8 @@ const CreateServiceForm = () => {
     defaultValues: {
       name: "",
       description: "",
+      location: "",
+      customable: false,
       images: [],
       categories: [],
     },
@@ -114,6 +121,23 @@ const CreateServiceForm = () => {
                       <Textarea placeholder="รายละเอียดบริการ" {...field} />
                     </FormControl>
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CollapsibleInput>
+            <CollapsibleInput header="ตั้งค่าเพิ่มเติม">
+              <FormField
+                control={form.control}
+                name="customable"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>อนุญาตคำสั่งซื้อพิเศษ</FormLabel>
                   </FormItem>
                 )}
               />
@@ -189,14 +213,26 @@ const CreateServiceForm = () => {
                                   }}
                                 />
                               </FormControl>
-                              <FormLabel>
-                                {category.name}
-                              </FormLabel>
+                              <FormLabel>{category.name}</FormLabel>
                             </FormItem>
                           );
                         }}
                       />
                     ))}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CollapsibleInput>
+            <CollapsibleInput header="สถานที่">
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Textarea placeholder="สถานที่บริการ" {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
