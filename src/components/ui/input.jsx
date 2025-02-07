@@ -8,7 +8,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: "input input-md input-bordered",
-        file: "file-input file-input-bordered file-input-md [&>*]:bg-red-500",
+        file: "file-input file-input-bordered file-input-primary file-input-md [&>*]:bg-red-500 border-[--border] border-opacity-100",
       },
     },
     defaultVariants: {

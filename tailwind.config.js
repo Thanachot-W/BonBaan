@@ -42,6 +42,9 @@ export default {
             "font-size": "1.25rem",
             "font-weight": "bold"
           },
+          ".file-input-md": {
+            "height": "2.5rem"
+          }
         },
       },
     ],
