@@ -8,12 +8,30 @@ import {
   FormField,
   FormItem,
   FormMessage,
+  FormLabel
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CollapsibleInput from "../shared/CollapsibleInput";
 import { Textarea } from "@/components/ui/textarea";
 import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "../../constants/files";
 import { useState } from "react";
+import { Checkbox } from "@/components/ui/checkbox"
+
+
+const categories = [
+  {
+    id: "1",
+    name: "ความรัก",
+  },
+  {
+    id: "2",
+    name: "สุขภาพ",
+  },
+  {
+    id: "3",
+    name: "การเงิน",
+  },
+];
 
 const formSchema = z.object({
   name: z.string().nonempty({
@@ -23,13 +41,21 @@ const formSchema = z.object({
   images: z
     .instanceof(FileList, { message: "กรุณากำหนดรูปภาพ" })
     .refine(
-      (files) => Array.from(files).every((file) => ACCEPTED_IMAGE_TYPES.includes(file.type)),
+      (files) =>
+        Array.from(files).every((file) =>
+          ACCEPTED_IMAGE_TYPES.includes(file.type)
+        ),
       { message: "รองรับเฉพาะไฟล์ JPG, PNG, และ WEBP เท่านั้น" }
     )
     .refine(
       (files) => Array.from(files).every((file) => file.size <= MAX_FILE_SIZE),
-      {message: `ขนาดไฟล์ต้องไม่เกิน ${MAX_FILE_SIZE / (1024 * 1024)}MB`}
+      { message: `ขนาดไฟล์ต้องไม่เกิน ${MAX_FILE_SIZE / (1024 * 1024)}MB` }
     ),
+  categories: z
+    .array(z.string())
+    .refine((value) => value.some((item) => item), {
+      message: "เลือกอย่างน้อย 1 หมวดหมู่",
+    }),
 });
 
 const CreateServiceForm = () => {
@@ -39,6 +65,7 @@ const CreateServiceForm = () => {
       name: "",
       description: "",
       images: [],
+      categories: [],
     },
   });
 
@@ -47,7 +74,9 @@ const CreateServiceForm = () => {
   const handleImageChange = (event) => {
     const files = event.target.files;
     if (files) {
-      const previews = Array.from(files).map((file) => URL.createObjectURL(file));
+      const previews = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
       setImagePreviews(previews);
     }
     form.setValue("images", files);
@@ -95,7 +124,6 @@ const CreateServiceForm = () => {
               เพิ่มบริการใหม่
             </Button>
             <CollapsibleInput header="ภาพบริการ">
-            
               <FormField
                 control={form.control}
                 name="images"
@@ -123,6 +151,53 @@ const CreateServiceForm = () => {
                         ))}
                       </div>
                     )}
+                  </FormItem>
+                )}
+              />
+            </CollapsibleInput>
+            <CollapsibleInput header="หมวดหมู่">
+              <FormField
+                control={form.control}
+                name="categories"
+                render={() => (
+                  <FormItem>
+                    {categories.map((category) => (
+                      <FormField
+                        key={category.id}
+                        control={form.control}
+                        name="categories"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={category.id}
+                              className="flex flex-row items-center space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(category.id)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([
+                                          ...field.value,
+                                          category.id,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== category.id
+                                          )
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel>
+                                {category.name}
+                              </FormLabel>
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    ))}
+                    <FormMessage />
                   </FormItem>
                 )}
               />

@@ -21,6 +21,7 @@ export default {
           "--fallback-pc": "#ffffff",
           "--fallback-er": "#DE3D3D",
           "--gray": "#5B5471",
+          "--primary": "#5e17eb",
           ".input-bordered": {
             "border-color": "#CECCD5",
           },
