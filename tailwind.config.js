@@ -25,17 +25,17 @@ export default {
             "border-color": "#CECCD5",
           },
           ".input-md": {
-            height: "2.5rem",
+            "height": "2.5rem",
           },
           ".input-sm": {
-            height: "2rem",
+            "height": "2rem",
           },
           ".btn": {
             "font-weight": "500",
             "animation": "none"
           },
           ".btn-md": {
-            height: "2.5rem",
+            "height": "2.5rem",
             "min-height": "2.5rem",
           },
           "h3": {

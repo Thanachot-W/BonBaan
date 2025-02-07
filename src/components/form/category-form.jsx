@@ -41,7 +41,7 @@ const CreateCategoryForm = () => {
             <FormItem>
               <FormLabel>ชื่อหมวดหมู่</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="ชื่อบริการ"/>
               </FormControl>
               <FormMessage />
             </FormItem>
