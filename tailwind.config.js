@@ -39,6 +39,11 @@ export default {
             "height": "2.5rem",
             "min-height": "2.5rem",
           },
+          ".btn-square": {
+            "height": "2.5rem",
+            "width": "2.5rem",
+            "min-height": "2.5rem",
+          },
           "h3": {
             "font-size": "1.25rem",
             "font-weight": "bold"

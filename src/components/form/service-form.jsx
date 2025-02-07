@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "../../constants/files";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Plus, Trash } from "lucide-react";
 
 const categories = [
   {
@@ -32,6 +33,11 @@ const categories = [
   },
 ];
 
+const packageSchema = z.object({
+  name: z.string().nonempty({ message: "กรุณากำหนดชื่อแพ็คเกจ" }),
+  description: z.string().nonempty({ message: "กรุณากำหนดคำอธิบายแพ็คเกจ" }),
+});
+
 const formSchema = z.object({
   name: z.string().nonempty({
     message: "กรุณากำหนดชื่อของบริการ",
@@ -42,6 +48,9 @@ const formSchema = z.object({
   location: z.string().nonempty({
     message: "กรุณากำหนดสถานที่ของบริการ",
   }),
+  packages: z
+    .array(packageSchema)
+    .min(1, { message: "ต้องมีอย่างน้อย 1 แพ็คเกจ" }),
   customable: z.boolean(),
   images: z
     .instanceof(FileList, { message: "กรุณากำหนดรูปภาพ" })
@@ -70,6 +79,7 @@ const CreateServiceForm = () => {
       name: "",
       description: "",
       location: "",
+      packages: [{ name: "", description: "" }],
       customable: false,
       images: [],
       categories: [],
@@ -89,6 +99,11 @@ const CreateServiceForm = () => {
     form.setValue("images", files);
   };
 
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "packages",
+  });
+
   const onSubmit = (values) => {
     console.log(values);
     // call api
@@ -99,6 +114,7 @@ const CreateServiceForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex gap-4">
           <div className="flex flex-col w-full gap-4 ">
+            {/* Service Title */}
             <FormField
               control={form.control}
               name="name"
@@ -111,6 +127,8 @@ const CreateServiceForm = () => {
                 </FormItem>
               )}
             />
+
+            {/* Service Description */}
             <CollapsibleInput header="รายละเอียด">
               <FormField
                 control={form.control}
@@ -125,6 +143,79 @@ const CreateServiceForm = () => {
                 )}
               />
             </CollapsibleInput>
+
+            {/* Service Packages */}
+            <CollapsibleInput header="แพ็คเกจ">
+              <div className="space-y-4">
+                {fields.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-col items-stretch gap-4 border border-[--border] bg-neutral-50 p-3 rounded-md"
+                  >
+                    <div className="flex gap-4 items-end">
+                      {/* Package Name */}
+                      <FormField
+                        control={form.control}
+                        name={`packages.${index}.name`}
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <FormLabel>ชื่อแพ็กเกจ</FormLabel>
+                            <FormControl>
+                              <Input placeholder="ชื่อแพ็คเกจ" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Remove Button */}
+                      {fields.length > 1 && (
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          onClick={() => remove(index)}
+                        >
+                          <Trash />
+                        </Button>
+                      )}
+                    </div>
+
+                    {/* Package Description */}
+                    <FormField
+                      control={form.control}
+                      name={`packages.${index}.description`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>รายการสินค้า</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="รายละเอียดแพ็คเกจ"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ))}
+
+                <div className="flex gap-4 items-end">
+                  {/* Add New Package Button */}
+                  <Button
+                    type="button"
+                    onClick={() => append({ name: "", description: "" })}
+                  >
+                    <Plus />
+                    เพิ่มแพ็คเกจใหม่
+                  </Button>
+
+                  <p className="text-sm text-[--gray]">ทั้งหมด {fields.length} แพ็คเกจ</p>
+                </div>
+              </div>
+            </CollapsibleInput>
+
+            {/* Settings */}
             <CollapsibleInput header="ตั้งค่าเพิ่มเติม">
               <FormField
                 control={form.control}
@@ -144,9 +235,12 @@ const CreateServiceForm = () => {
             </CollapsibleInput>
           </div>
           <div className="flex flex-col min-w-64 w-1/3 gap-4">
+            {/* Submit Button */}
             <Button type="submit" className="btn-block">
               เพิ่มบริการใหม่
             </Button>
+
+            {/* Service Images */}
             <CollapsibleInput header="ภาพบริการ">
               <FormField
                 control={form.control}
@@ -179,6 +273,8 @@ const CreateServiceForm = () => {
                 )}
               />
             </CollapsibleInput>
+
+            {/* Service Categories */}
             <CollapsibleInput header="หมวดหมู่">
               <FormField
                 control={form.control}
@@ -224,6 +320,8 @@ const CreateServiceForm = () => {
                 )}
               />
             </CollapsibleInput>
+
+            {/* Service Location */}
             <CollapsibleInput header="สถานที่">
               <FormField
                 control={form.control}
