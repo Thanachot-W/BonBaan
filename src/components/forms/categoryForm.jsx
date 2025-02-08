@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { categorySchema } from "../../schemas/categorySchema";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,28 +12,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const formSchema = z.object({
-  name: z.string().nonempty({
-    message: "กรุณาใส่ชิ่อหมวดหมู่",
-  }),
-});
-
-const CreateCategoryForm = () => {
+const CreateCategoryForm = ({ onSubmit }) => {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(categorySchema),
     defaultValues: {
       name: "",
     },
   });
 
-  const onSubmit = (values) => {
+  const handelSubmit = (values) => {
+    if (onSubmit) {
+      onSubmit(values)
+    }
     console.log(values);
     // call api
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(handelSubmit)} className="space-y-8">
         <FormField
           control={form.control}
           name="name"
@@ -53,7 +50,7 @@ const CreateCategoryForm = () => {
   );
 };
 
-const EditCategoryForm = ({ name, onCancel }) => {
+const EditCategoryForm = ({ name, onCancel, onSubmit }) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,14 +58,17 @@ const EditCategoryForm = ({ name, onCancel }) => {
     },
   });
 
-  const onSubmit = (values) => {
+  const handelSubmit = (values) => {
+    if (onSubmit) {
+      onSubmit(values)
+    }
     console.log(values);
     // call api
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handelSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="name"

@@ -22,7 +22,7 @@ import { useState } from "react";
 import {
   CreateCategoryForm,
   EditCategoryForm,
-} from "../components/form/category-form";
+} from "../components/forms/categoryForm";
 import { DeleteConfirmationAlert } from "../components/shared/alert";
 
 // TODO: get data from api

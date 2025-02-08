@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { serviceSchema } from "../../schemas/serviceSchema";
 import { useFieldArray, useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import CollapsibleInput from "../shared/CollapsibleInput";
 import { Textarea } from "@/components/ui/textarea";
-import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "../../constants/files";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, Trash } from "lucide-react";
@@ -33,61 +32,24 @@ const categories = [
   },
 ];
 
-const packageSchema = z.object({
-  name: z.string().nonempty({ message: "กรุณากำหนดชื่อแพ็คเกจ" }),
-  price: z.coerce
-    .number()
-    .positive({ message: "ราคาต้องเป็นจำนวนเต็มบวก" })
-    .int({ message: "ราคาต้องเป็นจำนวนเต็มบวก" }),
-  description: z.string().nonempty({ message: "กรุณากำหนดคำอธิบายแพ็คเกจ" }),
-});
+const defaultServiceValues = {
+  name: "",
+  description: "",
+  location: "",
+  packages: [{ name: "", price: "", description: "" }],
+  customable: false,
+  images: [],
+  categories: [],
+};
 
-const formSchema = z.object({
-  name: z.string().nonempty({
-    message: "กรุณากำหนดชื่อของบริการ",
-  }),
-  description: z.string().nonempty({
-    message: "กรุณากำหนดคำอธิบายของบริการ",
-  }),
-  location: z.string().nonempty({
-    message: "กรุณากำหนดสถานที่ของบริการ",
-  }),
-  packages: z
-    .array(packageSchema)
-    .min(1, { message: "ต้องมีอย่างน้อย 1 แพ็คเกจ" }),
-  customable: z.boolean(),
-  images: z
-    .instanceof(FileList, { message: "กรุณากำหนดรูปภาพ" })
-    .refine(
-      (files) =>
-        Array.from(files).every((file) =>
-          ACCEPTED_IMAGE_TYPES.includes(file.type)
-        ),
-      { message: "รองรับเฉพาะไฟล์ JPG, PNG, และ WEBP เท่านั้น" }
-    )
-    .refine(
-      (files) => Array.from(files).every((file) => file.size <= MAX_FILE_SIZE),
-      { message: `ขนาดไฟล์ต้องไม่เกิน ${MAX_FILE_SIZE / (1024 * 1024)}MB` }
-    ),
-  categories: z
-    .array(z.string())
-    .refine((value) => value.some((item) => item), {
-      message: "เลือกอย่างน้อย 1 หมวดหมู่",
-    }),
-});
-
-const CreateServiceForm = () => {
+const CreateServiceForm = ({
+  defaultValues = defaultServiceValues,
+  submitButtonLabel = "เพิ่มบริการใหม่", // Default for create
+  onSubmit,
+}) => {
   const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      location: "",
-      packages: [{ name: "", price: "", description: "" }],
-      customable: false,
-      images: [],
-      categories: [],
-    },
+    resolver: zodResolver(serviceSchema),
+    defaultValues: defaultValues,
   });
 
   const fileRef = form.register("file");
@@ -108,14 +70,17 @@ const CreateServiceForm = () => {
     name: "packages",
   });
 
-  const onSubmit = (values) => {
+  const handleSubmit = (values) => {
+    if (onSubmit) {
+      onSubmit(value)
+    }
     console.log(values);
     // call api
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="flex gap-4">
           <div className="flex flex-col w-full gap-4 ">
             {/* Service Title */}
@@ -152,7 +117,13 @@ const CreateServiceForm = () => {
             <CollapsibleInput header="แพ็คเกจ">
               <div className="space-y-4">
                 {fields.map((item, index) => (
-                  <PackageForm index={index} form={form} remove={remove} fields={fields} key={item.id}/>
+                  <PackageForm
+                    index={index}
+                    form={form}
+                    remove={remove}
+                    fields={fields}
+                    key={item.id}
+                  />
                 ))}
                 <div className="flex gap-4 items-end">
                   {/* Add New Package Button */}
@@ -195,7 +166,7 @@ const CreateServiceForm = () => {
           <div className="flex flex-col min-w-64 w-1/3 gap-4">
             {/* Submit Button */}
             <Button type="submit" className="btn-block">
-              เพิ่มบริการใหม่
+              {submitButtonLabel}
             </Button>
 
             {/* Service Images */}
@@ -304,9 +275,7 @@ const CreateServiceForm = () => {
 const PackageForm = ({ index, form, remove, fields }) => {
   return (
     <>
-      <div
-        className="flex flex-col items-stretch gap-4 border border-[--border] bg-neutral-50 p-3 rounded-md"
-      >
+      <div className="flex flex-col items-stretch gap-4 border border-[--border] bg-neutral-50 p-3 rounded-md">
         <div className="flex gap-4">
           {/* Package Name */}
           <FormField
