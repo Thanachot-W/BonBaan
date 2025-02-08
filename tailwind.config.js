@@ -21,27 +21,36 @@ export default {
           "--fallback-pc": "#ffffff",
           "--fallback-er": "#DE3D3D",
           "--gray": "#5B5471",
+          "--primary": "#5e17eb",
           ".input-bordered": {
             "border-color": "#CECCD5",
           },
           ".input-md": {
-            height: "2.5rem",
+            "height": "2.5rem",
           },
           ".input-sm": {
-            height: "2rem",
+            "height": "2rem",
           },
           ".btn": {
             "font-weight": "500",
             "animation": "none"
           },
           ".btn-md": {
-            height: "2.5rem",
+            "height": "2.5rem",
+            "min-height": "2.5rem",
+          },
+          ".btn-square": {
+            "height": "2.5rem",
+            "width": "2.5rem",
             "min-height": "2.5rem",
           },
           "h3": {
             "font-size": "1.25rem",
             "font-weight": "bold"
           },
+          ".file-input-md": {
+            "height": "2.5rem"
+          }
         },
       },
     ],

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, useMatch } from "react-router";
 import Layout from "../components/layout/Layout";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
@@ -13,6 +13,8 @@ import ChatsPage from "../pages/ChatsPage";
 import UsersPage from "../pages/UsersPage";
 import PaymentPage from "../pages/PaymentPage";
 import LogoutPage from "../pages/LogoutPage";
+import EditServicePage from "../pages/EditServicePage";
+import { ServiceID } from "./param-ids";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +61,13 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <ServicesPage />,
+              },
+              {
+                path: "/services/:id",
+                element: <EditServicePage />,
+                handle: {
+                  crumb: () => <ServiceID />,
+                },
               },
               {
                 path: "/services/insert",
