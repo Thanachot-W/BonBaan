@@ -35,6 +35,10 @@ const categories = [
 
 const packageSchema = z.object({
   name: z.string().nonempty({ message: "กรุณากำหนดชื่อแพ็คเกจ" }),
+  price: z.coerce
+    .number()
+    .positive({ message: "ราคาต้องเป็นจำนวนเต็มบวก" })
+    .int({ message: "ราคาต้องเป็นจำนวนเต็มบวก" }),
   description: z.string().nonempty({ message: "กรุณากำหนดคำอธิบายแพ็คเกจ" }),
 });
 
@@ -79,7 +83,7 @@ const CreateServiceForm = () => {
       name: "",
       description: "",
       location: "",
-      packages: [{ name: "", description: "" }],
+      packages: [{ name: "", price: "", description: "" }],
       customable: false,
       images: [],
       categories: [],
@@ -148,69 +152,23 @@ const CreateServiceForm = () => {
             <CollapsibleInput header="แพ็คเกจ">
               <div className="space-y-4">
                 {fields.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className="flex flex-col items-stretch gap-4 border border-[--border] bg-neutral-50 p-3 rounded-md"
-                  >
-                    <div className="flex gap-4 items-end">
-                      {/* Package Name */}
-                      <FormField
-                        control={form.control}
-                        name={`packages.${index}.name`}
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormLabel>ชื่อแพ็กเกจ</FormLabel>
-                            <FormControl>
-                              <Input placeholder="ชื่อแพ็คเกจ" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      {/* Remove Button */}
-                      {fields.length > 1 && (
-                        <Button
-                          variant="destructive"
-                          size="icon"
-                          onClick={() => remove(index)}
-                        >
-                          <Trash />
-                        </Button>
-                      )}
-                    </div>
-
-                    {/* Package Description */}
-                    <FormField
-                      control={form.control}
-                      name={`packages.${index}.description`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>รายการสินค้า</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="รายละเอียดแพ็คเกจ"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <PackageForm index={index} form={form} remove={remove} fields={fields} key={item.id}/>
                 ))}
-
                 <div className="flex gap-4 items-end">
                   {/* Add New Package Button */}
                   <Button
                     type="button"
-                    onClick={() => append({ name: "", description: "" })}
+                    onClick={() =>
+                      append({ name: "", price: "", description: "" })
+                    }
                   >
                     <Plus />
                     เพิ่มแพ็คเกจใหม่
                   </Button>
 
-                  <p className="text-sm text-[--gray]">ทั้งหมด {fields.length} แพ็คเกจ</p>
+                  <p className="text-sm text-[--gray]">
+                    ทั้งหมด {fields.length} แพ็คเกจ
+                  </p>
                 </div>
               </div>
             </CollapsibleInput>
@@ -340,6 +298,75 @@ const CreateServiceForm = () => {
         </div>
       </form>
     </Form>
+  );
+};
+
+const PackageForm = ({ index, form, remove, fields }) => {
+  return (
+    <>
+      <div
+        className="flex flex-col items-stretch gap-4 border border-[--border] bg-neutral-50 p-3 rounded-md"
+      >
+        <div className="flex gap-4">
+          {/* Package Name */}
+          <FormField
+            control={form.control}
+            name={`packages.${index}.name`}
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>ชื่อแพ็กเกจ</FormLabel>
+                <FormControl>
+                  <Input placeholder="ชื่อแพ็คเกจ" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Package Price */}
+          <FormField
+            control={form.control}
+            name={`packages.${index}.price`}
+            render={({ field }) => (
+              <FormItem className="max-w-60">
+                <FormLabel>ราคา</FormLabel>
+                <FormControl>
+                  <Input placeholder="ราคา" type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Remove Button */}
+          {fields.length > 1 && (
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={() => remove(index)}
+              className="mt-8"
+            >
+              <Trash />
+            </Button>
+          )}
+        </div>
+
+        {/* Package Description */}
+        <FormField
+          control={form.control}
+          name={`packages.${index}.description`}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>รายการสินค้า</FormLabel>
+              <FormControl>
+                <Textarea placeholder="รายละเอียดแพ็คเกจ" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+    </>
   );
 };
 
