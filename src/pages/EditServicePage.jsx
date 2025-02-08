@@ -1,16 +1,11 @@
 import { CreateServiceForm } from "../components/forms/serviceForm";
-
-const serviceData = {
-  name: "",
-  description: "",
-  location: "",
-  packages: [{ name: "", price: "", description: "" }],
-  customable: false,
-  images: [],
-  categories: [],
-}
+import { useService } from "../routes/editServiceRoute";
 
 const EditServicePage = () => {
+  const serviceData = useService();
+
+  //TODO: handle GET DELETE images
+
   return (
     <div>
       <CreateServiceForm defaultValues={serviceData} submitButtonLabel="แก้ไขบริการ"/>
