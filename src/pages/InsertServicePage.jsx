@@ -1,4 +1,4 @@
-import { CreateServiceForm } from "../components/form/service-form";
+import { CreateServiceForm } from "../components/forms/serviceForm";
 
 const InsertServicePage = () => {
   return (

@@ -15,6 +15,7 @@ import PaymentPage from "../pages/PaymentPage";
 import LogoutPage from "../pages/LogoutPage";
 import EditServicePage from "../pages/EditServicePage";
 import { ServiceID } from "./param-ids";
+import { serviceAction, serviceLoader } from "../routes/editServiceRoute";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,8 @@ const router = createBrowserRouter([
               {
                 path: "/services/:id",
                 element: <EditServicePage />,
+                loader: serviceLoader,
+                action: serviceAction,
                 handle: {
                   crumb: () => <ServiceID />,
                 },
