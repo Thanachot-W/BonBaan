@@ -17,7 +17,7 @@ import {
   PaginationLast,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { EditLink, DeleteLink } from "../components/shared/link";
+import { EditLink } from "../components/shared/link";
 import { Plus } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
@@ -32,6 +32,7 @@ const response = {
       id: "e24d56a2-152d-4053-988d-dcaadeec966f",
       img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
       title: "test",
+      rating: 3.92,
       categories: [
         {
           id: "1",
@@ -52,6 +53,7 @@ const response = {
       id: "52a2adb6-1a90-44eb-aacb-4d7af9d76791",
       img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
       title: "test",
+      rating: 4.1,
       categories: [
         {
           id: "1",
@@ -72,6 +74,7 @@ const response = {
       id: "db7aedd1-6c64-4ea3-b48c-5f1bf47ef309",
       img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
       title: "test",
+      rating: 2.5,
       categories: [
         {
           id: "1",
@@ -92,6 +95,7 @@ const response = {
       id: "a774aa3f-e382-4661-9867-e76a13262c7c",
       img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
       title: "test",
+      rating: 4.6,
       categories: [
         {
           id: "1",
@@ -138,6 +142,7 @@ const ServicesPage = () => {
               <TableHead className="w-[72px]">รูป</TableHead>
               <TableHead>ชื่อบริการ</TableHead>
               <TableHead>หมวดหมู่</TableHead>
+              <TableHead>คะแนน</TableHead>
               <TableHead>วันที่แก้ไขล่าสุด</TableHead>
             </TableRow>
           </TableHeader>
@@ -158,9 +163,10 @@ const ServicesPage = () => {
                     onConfirm={() => deleteService(row.id)}
                   />
                 </TableActionCell>
-                <TableCell>
+                <TableCell> 
                   {row.categories.map((item) => item.name).join(" ")}
                 </TableCell>
+                <TableCell>{row.rating}</TableCell>
                 <TableCell>{row.lastUpdateAt}</TableCell>
               </TableRow>
             ))}
