@@ -106,7 +106,7 @@ const router = createBrowserRouter([
             path: "/users",
             element: <UsersPage />,
             handle: {
-              crumb: () => "คำขอ",
+              crumb: () => "ผู้ใช้",
             },
           },
           {
