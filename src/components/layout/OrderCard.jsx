@@ -16,7 +16,7 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { CancelOrderForm } from "../forms/orderForm";
+import { CancelOrderForm, ConfirmOrderForm } from "../forms/orderForm";
 import { useState } from "react";
 
 const OrderCard = ({ data, onConfirm, onCancel }) => {
@@ -30,7 +30,9 @@ const OrderCard = ({ data, onConfirm, onCancel }) => {
       </CardHeader>
       <CardContent>
         <p>
-          {data.name} ต้องการ {data.type} ที่ {data.service}
+          <span className="font-semibold">{data.name}</span> ต้องการ{" "}
+          <span className="font-semibold">{data.type}</span> ที่{" "}
+          <span className="font-semibold">{data.service}</span>
         </p>
         <p>{data.detail}</p>
       </CardContent>
@@ -52,17 +54,34 @@ const OrderCard = ({ data, onConfirm, onCancel }) => {
   );
 };
 
-const ConfirmDialog = ({ onSubmit, trigger }) => (
-  <Dialog>
-    <DialogTrigger asChild>{trigger}</DialogTrigger>
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>กรุณาใส่ข้อมูลเพื่อยืนยันคำสั่งซื้อ</DialogTitle>
-        <DialogDescription>กรุณากำหนดราคาสำหรับคำสั่งซื้อ</DialogDescription>
-      </DialogHeader>
-    </DialogContent>
-  </Dialog>
-);
+const ConfirmDialog = ({ onSubmit, trigger }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>กรุณาใส่ข้อมูลเพื่อยืนยันคำสั่งซื้อ</DialogTitle>
+          <DialogDescription>กรุณากำหนดราคาสำหรับคำสั่งซื้อ</DialogDescription>
+        </DialogHeader>
+        <ConfirmOrderForm
+          closeDialog={() => setOpen(false)}
+          onSubmit={onSubmit}
+        >
+          <DialogFooter>
+            <Button type="submit">ยืนยัน</Button>
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                ยกเลิก
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </ConfirmOrderForm>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 const CancelDialog = ({ onSubmit, trigger }) => {
   const [open, setOpen] = useState(false);

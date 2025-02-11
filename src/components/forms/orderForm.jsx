@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cancelOrderSchema } from "../../schemas/orderSchema";
+import { cancelOrderSchema, confirmOrderSchema } from "../../schemas/orderSchema";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -68,4 +68,46 @@ const CancelOrderForm = ({ onSubmit, closeDialog, children }) => {
   );
 };
 
-export { CancelOrderForm }
+const ConfirmOrderForm = ({ onSubmit, closeDialog, children }) => {
+  const form = useForm({
+    resolver: zodResolver(confirmOrderSchema),
+    defaultValues: {
+      price: ""
+    },
+  });
+
+  const handelSubmit = (values) => {
+    if (onSubmit) {
+      onSubmit(values);
+    }
+    if (closeDialog) {
+      closeDialog();
+    }
+    console.log(values);
+    
+    // call api
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handelSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ราคา</FormLabel>
+              <FormControl>
+                <Input {...field} type="number" placeholder="ราคาของคำสั่งซื้อ"/>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {children}
+      </form>
+    </Form>
+  );
+};
+
+export { CancelOrderForm, ConfirmOrderForm }
