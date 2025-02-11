@@ -69,9 +69,9 @@ const AppSidebar = () => {
           {menuItems.header.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
+                variant="secondary"
                 asChild
-                className="text-white stroke-white"
-                isActive={location.includes(item.url) ? true : false}
+                isActive={location.includes(item.url)}
               >
                 <Link to={item.url}>
                   <item.icon size={32} />
@@ -91,7 +91,7 @@ const AppSidebar = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    isActive={location.includes(item.url) ? true : false}
+                    isActive={location.includes(item.url)}
                   >
                     <Link to={item.url}>
                       <item.icon size={32} color="#5B5471" />
