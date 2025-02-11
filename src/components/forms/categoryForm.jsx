@@ -52,7 +52,7 @@ const CreateCategoryForm = ({ onSubmit }) => {
 
 const EditCategoryForm = ({ name, onCancel, onSubmit }) => {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(categorySchema),
     defaultValues: {
       name: name,
     },
