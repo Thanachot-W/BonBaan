@@ -30,7 +30,7 @@ const response = {
   data: [
     {
       id: "e24d56a2-152d-4053-988d-dcaadeec966f",
-      img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
+      img: "https://picsum.photos/seed/1/200/200",
       title: "test",
       rating: 3.92,
       categories: [
@@ -51,7 +51,7 @@ const response = {
     },
     {
       id: "52a2adb6-1a90-44eb-aacb-4d7af9d76791",
-      img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
+      img: "https://picsum.photos/seed/2/200/200",
       title: "test",
       rating: 4.1,
       categories: [
@@ -72,7 +72,7 @@ const response = {
     },
     {
       id: "db7aedd1-6c64-4ea3-b48c-5f1bf47ef309",
-      img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
+      img: "https://picsum.photos/seed/3/200/200",
       title: "test",
       rating: 2.5,
       categories: [
@@ -93,7 +93,7 @@ const response = {
     },
     {
       id: "a774aa3f-e382-4661-9867-e76a13262c7c",
-      img: "https://farm4.staticflickr.com/3852/14447103450_2d0ff8802b_z_d.jpg",
+      img: "https://picsum.photos/seed/4/200/200",
       title: "test",
       rating: 4.6,
       categories: [

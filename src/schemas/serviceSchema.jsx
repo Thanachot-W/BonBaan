@@ -10,6 +10,18 @@ const packageSchema = z.object({
   description: z.string().nonempty({ message: "กรุณากำหนดคำอธิบายแพ็คเกจ" }),
 });
 
+const imageSchema = z.union([
+  z.string().url({ message: "รูปภาพต้องเป็น URL ที่ถูกต้อง" }), // Existing images (URLs)
+  z
+    .instanceof(File, { message: "กรุณากำหนดรูปภาพ" }) // Newly uploaded images
+    .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+      message: "รองรับเฉพาะไฟล์ JPG, PNG, และ WEBP เท่านั้น",
+    })
+    .refine((file) => file.size <= MAX_FILE_SIZE, {
+      message: `ขนาดไฟล์ต้องไม่เกิน ${MAX_FILE_SIZE / (1024 * 1024)}MB`,
+    }),
+]);
+
 const serviceSchema = z.object({
   name: z.string().nonempty({
     message: "กรุณากำหนดชื่อของบริการ",
@@ -24,19 +36,7 @@ const serviceSchema = z.object({
     .array(packageSchema)
     .min(1, { message: "ต้องมีอย่างน้อย 1 แพ็คเกจ" }),
   customable: z.boolean(),
-  images: z
-    .instanceof(FileList, { message: "กรุณากำหนดรูปภาพ" })
-    .refine(
-      (files) =>
-        Array.from(files).every((file) =>
-          ACCEPTED_IMAGE_TYPES.includes(file.type)
-        ),
-      { message: "รองรับเฉพาะไฟล์ JPG, PNG, และ WEBP เท่านั้น" }
-    )
-    .refine(
-      (files) => Array.from(files).every((file) => file.size <= MAX_FILE_SIZE),
-      { message: `ขนาดไฟล์ต้องไม่เกิน ${MAX_FILE_SIZE / (1024 * 1024)}MB` }
-    ),
+  images: z.array(imageSchema).min(1, { message: "กรุณาเพิ่มรูปภาพอย่างน้อย 1 รูป" }),
   categories: z
     .array(z.string())
     .refine((value) => value.some((item) => item), {

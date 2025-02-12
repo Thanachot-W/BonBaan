@@ -15,7 +15,7 @@ import CollapsibleInput from "../shared/CollapsibleInput";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Plus, Trash } from "lucide-react";
+import { Plus, Trash, X } from "lucide-react";
 
 const categories = [
   {
@@ -53,16 +53,27 @@ const CreateServiceForm = ({
   });
 
   const fileRef = form.register("file");
-  const [imagePreviews, setImagePreviews] = useState([]);
+  const [existingImages, setExistingImages] = useState(
+    defaultValues.images || []
+  );
+  const [uploadedImages, setUploadedImages] = useState([]);
   const handleImageChange = (event) => {
-    const files = event.target.files;
-    if (files) {
-      const previews = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setImagePreviews(previews);
+    const files = Array.from(event.target.files);
+    if (files.length > 0) {
+      const previews = files.map((file) => ({
+        url: URL.createObjectURL(file),
+        file: file, // Keep reference to actual file
+      }));
+      setUploadedImages([...uploadedImages, ...previews]);
     }
-    form.setValue("images", files);
+  };
+
+  const removeImage = (index, type) => {
+    if (type === "existing") {
+      setExistingImages(existingImages.filter((_, i) => i !== index));
+    } else {
+      setUploadedImages(uploadedImages.filter((_, i) => i !== index));
+    }
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -71,10 +82,25 @@ const CreateServiceForm = ({
   });
 
   const handleSubmit = (values) => {
+    const formData = new FormData();
+
+    formData.append("existingImages", JSON.stringify(existingImages));
+
+    uploadedImages.forEach(({ file }) => {
+      formData.append("images", file);
+    });
+
+    Object.keys(values).forEach((key) => {
+      if (key !== "images") {
+        formData.append(key, values[key]);
+      }
+    });
+
     if (onSubmit) {
-      onSubmit(value)
+      onSubmit(value);
     }
     console.log(values);
+    console.log(formData.getAll("images"));
     // call api
   };
 
@@ -171,6 +197,33 @@ const CreateServiceForm = ({
 
             {/* Service Images */}
             <CollapsibleInput header="ภาพบริการ">
+              {/* Existed Images Preview */}
+              {existingImages.length > 0 && (
+                <div className="mb-4 grid grid-cols-3 gap-2">
+                  {existingImages.map((src, index) => (
+                    <div
+                      key={index}
+                      className="relative [&>button]:hover:inline-flex"
+                    >
+                      <img
+                        src={src}
+                        alt={`existing-${index}`}
+                        className="w-full h-24 object-cover rounded-md border border-[--border]"
+                      />
+                      <Button
+                        type="button"
+                        variant="icon"
+                        size="xs"
+                        className="absolute top-1 right-1 hidden rounded-full"
+                        onClick={() => removeImage(index, "existing")}
+                      >
+                        <X />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* Images Input */}
               <FormField
                 control={form.control}
                 name="images"
@@ -186,21 +239,35 @@ const CreateServiceForm = ({
                       />
                     </FormControl>
                     <FormMessage />
-                    {imagePreviews.length > 0 && (
-                      <div className="mt-4 grid grid-cols-3 gap-2">
-                        {imagePreviews.map((src, index) => (
-                          <img
-                            key={index}
-                            src={src}
-                            alt={`preview-${index}`}
-                            className="w-full h-24 object-cover rounded-md border border-[--border]"
-                          />
-                        ))}
-                      </div>
-                    )}
                   </FormItem>
                 )}
               />
+              {/* Uploaded Images Preview */}
+              {uploadedImages.length > 0 && (
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  {uploadedImages.map(({ url }, index) => (
+                    <div
+                      key={index}
+                      className="relative [&>button]:hover:inline-flex"
+                    >
+                      <img
+                        src={url}
+                        alt={`uploaded-${index}`}
+                        className="w-full h-24 object-cover rounded-md border border-gray-300"
+                      />
+                      <Button
+                        type="button"
+                        variant="icon"
+                        size="xs"
+                        className="absolute top-1 right-1 hidden rounded-full"
+                        onClick={() => removeImage(index, "uploaded")}
+                      >
+                        <X />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </CollapsibleInput>
 
             {/* Service Categories */}

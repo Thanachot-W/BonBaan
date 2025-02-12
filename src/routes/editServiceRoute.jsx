@@ -8,7 +8,7 @@ export const serviceLoader = () => {
     location: "test",
     packages: [{ name: "test", price: "1", description: "test" }],
     customable: true,
-    images: [],
+    images: ["https://picsum.photos/seed/4/200/200", "https://picsum.photos/seed/2/200/200"],
     categories: [],
   };
   return data;
