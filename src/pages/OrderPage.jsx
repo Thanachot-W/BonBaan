@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import CollapsibleInput from "../components/shared/CollapsibleInput";
 import InfoField from "../components/shared/InfoField";
-import { CancelDialog } from "../components/shared/orderInput";
+import {
+  CancelOrderDialog,
+  CompleteOrderDialog,
+} from "../components/shared/orderDialog";
 
 const orderData = {
   id: "5c060f02",
@@ -13,7 +16,7 @@ const orderData = {
     name: "ท้าวเวสสุวรรณ วัดจุฬามณี",
   },
   type: { name: "บนบาน" },
-  status: "กำลังดำเนินการ",
+  status: { name: "กำลังดำเนินการ" },
   wish: "ขอให้สุขภาพแข็งแรง",
   dueAt: new Date(Date.now()).toDateString(),
   createAt: new Date(Date.now()).toDateString(),
@@ -24,14 +27,14 @@ const orderData = {
     location:
       "123/456 ซอยประชาอุทิศ 69 แขวงบางมด แขวงบางมด เขตทุ่งครุ จังหวัดกรุงเทพมหานคร 10140",
     date: new Date(Date.now()).toDateString(),
-    status: "สำเร็จ",
+    status: "กำลังดำเนินการ",
     method: "QR code",
   },
 };
 
 const OrderPage = () => {
-  const onCancel = () => {
-  }
+  const onCancel = () => {};
+  const onConfirm = () => {};
 
   return (
     <div className="flex flex-col gap-4">
@@ -39,8 +42,15 @@ const OrderPage = () => {
         <div className="py-2 px-4 bg-white font-bold border border-[--border] rounded-md w-full">
           คำสั่งซื้อ {orderData.id}
         </div>
-        <Button>สำเร็จคำสั่งซื้อ</Button>
-        <CancelDialog
+        {orderData.status.name === "กำลังดำเนินการ" ? (
+          <CompleteOrderDialog
+            onSubmit={onConfirm}
+            trigger={<Button>สำเร็จคำสั่งซื้อ</Button>}
+          />
+        ) : (
+          <></>
+        )}
+        <CancelOrderDialog
           onSubmit={onCancel}
           trigger={<Button variant="destructive">ยกเลิกคำสั่งซื้อ</Button>}
         />
@@ -51,7 +61,7 @@ const OrderPage = () => {
             {orderData.user.name} ({orderData.user.email})
           </InfoField>
           <InfoField label="สถานะ" className="col-span-2">
-            {orderData.status}
+            {orderData.status.name}
           </InfoField>
           <InfoField label="ชื่อบริการ" className="col-span-2">
             {orderData.service.name}

@@ -8,11 +8,11 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { CancelOrderForm, ConfirmOrderForm } from "../forms/orderForm";
+import { CancelOrderForm, ConfirmOrderForm, CompleteOrderForm } from "../forms/orderForm";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-const ConfirmDialog = ({ onSubmit, trigger }) => {
+const ConfirmOrderDialog = ({ onSubmit, trigger }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -41,7 +41,7 @@ const ConfirmDialog = ({ onSubmit, trigger }) => {
   );
 };
 
-const CancelDialog = ({ onSubmit, trigger }) => {
+const CancelOrderDialog = ({ onSubmit, trigger }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -71,4 +71,33 @@ const CancelDialog = ({ onSubmit, trigger }) => {
   );
 };
 
-export { ConfirmDialog, CancelDialog };
+const CompleteOrderDialog = ({ onSubmit, trigger }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>กรุณาใส่ข้อมูลเพื่อยืนยันคำสั่งซื้อ</DialogTitle>
+          <DialogDescription>กรุณากำหนดราคาสำหรับคำสั่งซื้อ</DialogDescription>
+        </DialogHeader>
+        <CompleteOrderForm
+          closeDialog={() => setOpen(false)}
+          onSubmit={onSubmit}
+        >
+          <DialogFooter>
+            <Button type="submit">ยืนยัน</Button>
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                ยกเลิก
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </CompleteOrderForm>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export { ConfirmOrderDialog, CancelOrderDialog, CompleteOrderDialog };

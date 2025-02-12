@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CancelDialog, ConfirmDialog } from "./orderInput";
+import { CancelOrderDialog, ConfirmOrderDialog } from "./orderDialog";
 
 const OrderCard = ({ data, onConfirm, onCancel }) => {
   return (
@@ -26,11 +26,11 @@ const OrderCard = ({ data, onConfirm, onCancel }) => {
         <p>{data.detail}</p>
       </CardContent>
       <CardFooter className="flex gap-2 justify-end">
-        <ConfirmDialog
+        <ConfirmOrderDialog
           onSubmit={onConfirm}
           trigger={<Button className="px-8">ยืนยัน</Button>}
         />
-        <CancelDialog
+        <CancelOrderDialog
           onSubmit={onCancel}
           trigger={
             <Button className="px-8" variant="destructive">
