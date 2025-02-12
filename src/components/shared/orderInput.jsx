@@ -1,0 +1,74 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { CancelOrderForm, ConfirmOrderForm } from "../forms/orderForm";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+
+const ConfirmDialog = ({ onSubmit, trigger }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>กรุณาใส่ข้อมูลเพื่อยืนยันคำสั่งซื้อ</DialogTitle>
+          <DialogDescription>กรุณากำหนดราคาสำหรับคำสั่งซื้อ</DialogDescription>
+        </DialogHeader>
+        <ConfirmOrderForm
+          closeDialog={() => setOpen(false)}
+          onSubmit={onSubmit}
+        >
+          <DialogFooter>
+            <Button type="submit">ยืนยัน</Button>
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                ยกเลิก
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </ConfirmOrderForm>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const CancelDialog = ({ onSubmit, trigger }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>กรุณาใส่ข้อมูลเพื่อยกเลิกคำสั่งซื้อ</DialogTitle>
+          <DialogDescription>
+            กรุณาเลือกเหตุผลการปฎิเสธคำสั่งซื้อ
+            การปฎิเสธคำสั่งซื้ออาจทำให้ลูกค้าไม่พึงพอใจ
+            ด้งนั้นกรุณาใส่เหตุผลประกอบเพิ่มเติม
+          </DialogDescription>
+        </DialogHeader>
+        <CancelOrderForm closeDialog={() => setOpen(false)} onSubmit={onSubmit}>
+          <DialogFooter>
+            <Button type="submit">ยืนยัน</Button>
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                ยกเลิก
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </CancelOrderForm>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export { ConfirmDialog, CancelDialog };

@@ -1,4 +1,4 @@
-import OrderCard from "../components/layout/OrderCard";
+import OrderCard from "../components/shared/OrderCard";
 
 const inboxData = [
   {

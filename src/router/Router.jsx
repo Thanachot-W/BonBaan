@@ -14,8 +14,9 @@ import UsersPage from "../pages/UsersPage";
 import PaymentPage from "../pages/PaymentPage";
 import LogoutPage from "../pages/LogoutPage";
 import EditServicePage from "../pages/EditServicePage";
-import { ServiceID } from "./param-ids";
+import { OrderID, ServiceID } from "./param-ids";
 import { serviceAction, serviceLoader } from "../routes/editServiceRoute";
+import OrderPage from "../pages/OrderPage";
 
 const router = createBrowserRouter([
   {
@@ -48,10 +49,22 @@ const router = createBrowserRouter([
           },
           {
             path: "/orders",
-            element: <OrdersPage />,
             handle: {
               crumb: () => "คำสั่งซื้อ",
             },
+            children: [
+              {
+                index: true,
+                element: <OrdersPage />
+              },
+              {
+                path: "/orders/:id",
+                element: <OrderPage />,
+                handle: {
+                  crumb: () => <OrderID />
+                }
+              }
+            ]
           },
           {
             path: "/services",
