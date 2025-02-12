@@ -11,7 +11,6 @@ import OrdersPage from "../pages/OrdersPage";
 import InboxPage from "../pages/InboxPage";
 import ChatsPage from "../pages/ChatsPage";
 import UsersPage from "../pages/UsersPage";
-import PaymentPage from "../pages/PaymentPage";
 import LogoutPage from "../pages/LogoutPage";
 import EditServicePage from "../pages/EditServicePage";
 import { OrderID, ServiceID } from "./param-ids";
@@ -24,7 +23,7 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: "/login",
+    path: "/logout",
     element: <LogoutPage />
   },
   {
@@ -120,13 +119,6 @@ const router = createBrowserRouter([
             element: <UsersPage />,
             handle: {
               crumb: () => "ผู้ใช้",
-            },
-          },
-          {
-            path: "/payment",
-            element: <PaymentPage />,
-            handle: {
-              crumb: () => "ชำระเงิน",
             },
           },
         ],
