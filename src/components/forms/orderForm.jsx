@@ -3,6 +3,7 @@ import {
   cancelOrderSchema,
   confirmOrderSchema,
   completeOrderSchema,
+  orderStatusSchema
 } from "../../schemas/orderSchema";
 import { useForm } from "react-hook-form";
 import {
@@ -17,6 +18,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const CancelOrderForm = ({ onSubmit, closeDialog, children }) => {
   const form = useForm({
@@ -120,6 +128,70 @@ const ConfirmOrderForm = ({ onSubmit, closeDialog, children }) => {
   );
 };
 
+const OrderStatusForm = ({ onSubmit, closeDialog, children }) => {
+  const form = useForm({
+    resolver: zodResolver(orderStatusSchema),
+    defaultValues: {
+      status: ""
+    }
+  });
+
+  const status = [
+    {
+      id: 1,
+      name: "รอรับออเดอร์",
+    },
+    {
+      id: 2,
+      name: "กำลังเตรียมการ",
+    },
+    {
+      id: 3,
+      name: "กำลังดำเนินการ",
+    },
+    {
+      id: 4,
+      name: "รอการยืนยัน",
+    }
+  ]
+
+  const handleSubmit = (values) => {
+    if (onSubmit) onSubmit(values);
+    if (closeDialog) closeDialog();
+    console.log(values);
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>สถานะคำสั่งซื้อ</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="เลือกสถานะคำสั่งซื้อ" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {status.map((item) => (
+                    <SelectItem key={item.id} value={item.id.toString()}>{item.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {children}
+      </form>
+    </Form>
+  );
+}
+
 const CompleteOrderForm = ({ onSubmit, closeDialog, children }) => {
   const form = useForm({
     resolver: zodResolver(completeOrderSchema),
@@ -208,4 +280,4 @@ const CompleteOrderForm = ({ onSubmit, closeDialog, children }) => {
   );
 };
 
-export { CancelOrderForm, ConfirmOrderForm, CompleteOrderForm };
+export { CancelOrderForm, ConfirmOrderForm, CompleteOrderForm, OrderStatusForm };

@@ -4,6 +4,7 @@ import InfoField from "../components/shared/InfoField";
 import {
   CancelOrderDialog,
   CompleteOrderDialog,
+  OrderStatusDialog
 } from "../components/shared/orderDialog";
 
 const orderData = {
@@ -16,7 +17,7 @@ const orderData = {
     name: "ท้าวเวสสุวรรณ วัดจุฬามณี",
   },
   type: { name: "บนบาน" },
-  status: { name: "กำลังดำเนินการ" },
+  status: { name: "กำลังดำเนินการก" },
   wish: "ขอให้สุขภาพแข็งแรง",
   dueAt: new Date(Date.now()).toDateString(),
   createAt: new Date(Date.now()).toDateString(),
@@ -35,6 +36,7 @@ const orderData = {
 const OrderPage = () => {
   const onCancel = () => {};
   const onConfirm = () => {};
+  const onChangeStatus = () => {};
 
   return (
     <div className="flex flex-col gap-4">
@@ -48,7 +50,7 @@ const OrderPage = () => {
             trigger={<Button>สำเร็จคำสั่งซื้อ</Button>}
           />
         ) : (
-          <></>
+          <OrderStatusDialog onSubmit={onChangeStatus} trigger={<Button>อัพเดตสถานะคำสั่งซื้อ</Button>}/>
         )}
         <CancelOrderDialog
           onSubmit={onCancel}

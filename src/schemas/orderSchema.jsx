@@ -54,4 +54,10 @@ const completeOrderSchema = z.object({
   files: z.array(fileSchema).min(1, { message: "กรุณาเพิ่มรูปภาพหรือวิดีโออย่างน้อย 1 รายการ" }),
 });
 
-export { cancelOrderSchema, confirmOrderSchema, completeOrderSchema };
+const orderStatusSchema = z.object({
+  status: z.coerce
+  .number().positive({ message: "กรุณาเลือกสถานะ" })
+  .int({ message: "กรุณาเลือกสถานะ" }),
+})
+
+export { cancelOrderSchema, confirmOrderSchema, completeOrderSchema, orderStatusSchema };
