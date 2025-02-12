@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "./constants";
+import { MAX_IMAGE_SIZE, ACCEPTED_IMAGE_TYPES } from "./constants";
 
 const packageSchema = z.object({
   name: z.string().nonempty({ message: "กรุณากำหนดชื่อแพ็คเกจ" }),
@@ -17,8 +17,8 @@ const imageSchema = z.union([
     .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: "รองรับเฉพาะไฟล์ JPG, PNG, และ WEBP เท่านั้น",
     })
-    .refine((file) => file.size <= MAX_FILE_SIZE, {
-      message: `ขนาดไฟล์ต้องไม่เกิน ${MAX_FILE_SIZE / (1024 * 1024)}MB`,
+    .refine((file) => file.size <= MAX_IMAGE_SIZE, {
+      message: `ขนาดไฟล์ต้องไม่เกิน ${MAX_IMAGE_SIZE / (1024 * 1024)}MB`,
     }),
 ]);
 

@@ -5,6 +5,12 @@ const ServiceID = () => {
   return match.params.id
 }
 
+const OrderID = () => {
+  const match = useMatch("/orders/:id");
+  return match.params.id
+}
+
 export {
-  ServiceID
+  ServiceID,
+  OrderID
 }
