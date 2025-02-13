@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { serviceSchema } from "../../schemas/serviceSchema";
+import { serviceSchema, imageSchema } from "../../schemas/serviceSchema";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -62,18 +62,34 @@ const CreateServiceForm = ({
     if (files.length > 0) {
       const previews = files.map((file) => ({
         url: URL.createObjectURL(file),
-        file: file, // Keep reference to actual file
+        file: file,
       }));
-      setUploadedImages([...uploadedImages, ...previews]);
+
+      const newImages = [...uploadedImages, ...previews];
+      setUploadedImages(newImages);
+      form.setValue(
+        "images",
+        [...existingImages, ...newImages.map((img) => img.file)],
+        { shouldValidate: true }
+      );
     }
   };
 
   const removeImage = (index, type) => {
+    let newImages;
+
     if (type === "existing") {
-      setExistingImages(existingImages.filter((_, i) => i !== index));
+      newImages = existingImages.filter((_, i) => i !== index);
+      setExistingImages(newImages);
     } else {
-      setUploadedImages(uploadedImages.filter((_, i) => i !== index));
+      newImages = uploadedImages.filter((_, i) => i !== index);
+      setUploadedImages(newImages);
     }
+
+    // Update form state to match removed images
+    form.setValue("images", [...newImages.map((img) => img.file)], {
+      shouldValidate: true,
+    });
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -97,10 +113,9 @@ const CreateServiceForm = ({
     });
 
     if (onSubmit) {
-      onSubmit(value);
+      onSubmit(values);
     }
     console.log(values);
-    console.log(formData.getAll("images"));
     // call api
   };
 
@@ -140,7 +155,7 @@ const CreateServiceForm = ({
             </CollapsibleInput>
 
             {/* Service Packages */}
-            <CollapsibleInput header="แพ็คเกจ">
+            <CollapsibleInput header="แพ็กเกจ">
               <div className="space-y-4">
                 {fields.map((item, index) => (
                   <PackageForm
@@ -160,11 +175,11 @@ const CreateServiceForm = ({
                     }
                   >
                     <Plus />
-                    เพิ่มแพ็คเกจใหม่
+                    เพิ่มแพ็กเกจใหม่
                   </Button>
 
                   <p className="text-sm text-[--gray]">
-                    ทั้งหมด {fields.length} แพ็คเกจ
+                    ทั้งหมด {fields.length} แพ็กเกจ
                   </p>
                 </div>
               </div>
@@ -236,6 +251,7 @@ const CreateServiceForm = ({
                         variant="file"
                         multiple
                         onChange={handleImageChange}
+                        data-testid="service-images"
                       />
                     </FormControl>
                     <FormMessage />
@@ -256,6 +272,7 @@ const CreateServiceForm = ({
                         className="w-full h-24 object-cover rounded-md border border-gray-300"
                       />
                       <Button
+                        aria-label="delete-image"
                         type="button"
                         variant="icon"
                         size="xs"
@@ -352,7 +369,7 @@ const PackageForm = ({ index, form, remove, fields }) => {
               <FormItem className="w-full">
                 <FormLabel>ชื่อแพ็กเกจ</FormLabel>
                 <FormControl>
-                  <Input placeholder="ชื่อแพ็คเกจ" {...field} />
+                  <Input placeholder="ชื่อแพ็กเกจ" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -377,6 +394,7 @@ const PackageForm = ({ index, form, remove, fields }) => {
           {/* Remove Button */}
           {fields.length > 1 && (
             <Button
+              aria-label="delete-package"
               variant="destructive"
               size="icon"
               onClick={() => remove(index)}
@@ -395,7 +413,7 @@ const PackageForm = ({ index, form, remove, fields }) => {
             <FormItem>
               <FormLabel>รายการสินค้า</FormLabel>
               <FormControl>
-                <Textarea placeholder="รายละเอียดแพ็คเกจ" {...field} />
+                <Textarea placeholder="รายละเอียดแพ็กเกจ" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
