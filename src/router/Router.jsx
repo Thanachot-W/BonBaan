@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, useMatch } from "react-router";
 import Layout from "../components/layout/Layout";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
@@ -11,8 +11,11 @@ import OrdersPage from "../pages/OrdersPage";
 import InboxPage from "../pages/InboxPage";
 import ChatsPage from "../pages/ChatsPage";
 import UsersPage from "../pages/UsersPage";
-import PaymentPage from "../pages/PaymentPage";
 import LogoutPage from "../pages/LogoutPage";
+import EditServicePage from "../pages/EditServicePage";
+import { OrderID, ServiceID } from "./param-ids";
+import { serviceAction, serviceLoader } from "../routes/editServiceRoute";
+import OrderPage from "../pages/OrderPage";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +23,7 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: "/login",
+    path: "/logout",
     element: <LogoutPage />
   },
   {
@@ -45,10 +48,22 @@ const router = createBrowserRouter([
           },
           {
             path: "/orders",
-            element: <OrdersPage />,
             handle: {
               crumb: () => "คำสั่งซื้อ",
             },
+            children: [
+              {
+                index: true,
+                element: <OrdersPage />
+              },
+              {
+                path: "/orders/:id",
+                element: <OrderPage />,
+                handle: {
+                  crumb: () => <OrderID />
+                }
+              }
+            ]
           },
           {
             path: "/services",
@@ -59,6 +74,15 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <ServicesPage />,
+              },
+              {
+                path: "/services/:id",
+                element: <EditServicePage />,
+                loader: serviceLoader,
+                action: serviceAction,
+                handle: {
+                  crumb: () => <ServiceID />,
+                },
               },
               {
                 path: "/services/insert",
@@ -94,14 +118,7 @@ const router = createBrowserRouter([
             path: "/users",
             element: <UsersPage />,
             handle: {
-              crumb: () => "คำขอ",
-            },
-          },
-          {
-            path: "/payment",
-            element: <PaymentPage />,
-            handle: {
-              crumb: () => "ชำระเงิน",
+              crumb: () => "ผู้ใช้",
             },
           },
         ],

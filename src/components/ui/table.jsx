@@ -86,6 +86,20 @@ const TableActionCell = React.forwardRef(({ className, title, ...props }, ref) =
 ))
 TableActionCell.displayName = "TableActionCell"
 
+const TableFormCell = React.forwardRef(({ className, title, form, colSpan, ...props }, ref) => (
+  <td
+    ref={ref} colSpan={colSpan}
+    className={cn(
+      "py-3 px-4 align-top action-row space-y-4",
+      className
+    )}
+    {...props} >
+    <h4>{title}</h4>
+    {form}
+  </td>
+))
+TableFormCell.displayName = "TableFormCell"
+
 const TableCaption = React.forwardRef(({ className, ...props }, ref) => (
   <caption
     ref={ref}
@@ -103,5 +117,6 @@ export {
   TableRow,
   TableCell,
   TableCaption,
-  TableActionCell
+  TableActionCell,
+  TableFormCell
 }

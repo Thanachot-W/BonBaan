@@ -14,7 +14,7 @@ const Breadcrumbs = () => {
   }, []);
 
   return (
-    <div className="breadcrumbs p-0">
+    <div className="breadcrumbs flex items-center p-0">
       <ul>
         {crumbs.map((crumb) => (
           <li key={crumb.path}>

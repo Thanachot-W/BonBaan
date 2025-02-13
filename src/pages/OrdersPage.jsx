@@ -1,12 +1,3 @@
-/*const OrdersPage = () => {
-  return (
-    <div>
-    </div>
-  );
-};
-
-export default OrdersPage;*/
-
 import {
   Table,
   TableBody,
@@ -26,12 +17,13 @@ import {
   PaginationLast,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { EditLink, DeleteLink } from "../components/shared/link";
 import { Plus } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
+import FilterSelect from "@/components/ui/filterselect"; 
+import SearchInput from "@/components/ui/searchinput"; 
+import StatusBadge from "@/components/ui/statusbagde"; 
 
-// Mocked data
 const response = {
   data: [
     { place:'เจ้าพ่อเห้งเจีย สวนผัก', id: 'a5201906', type: 'บนบาน', date: '23/10/2567', user: 'ราตรี พรหมหวัง', price: '89', status: 'ยกเลิก' },
@@ -45,14 +37,6 @@ const response = {
   currentPage: 1,
   totalRecord: 10,
   pageSize: 4,
-};
-
-const statusColors = {
-  'สำเร็จ': 'text-green-600 border-green-600 bg-green-100',
-  'ยกเลิก': 'text-red-600 border-red-600 bg-red-100',
-  'กำลังดำเนินการ': 'text-blue-600 border-blue-600 bg-blue-100',
-  'รอรับออเดอร์': 'text-yellow-600 border-yellow-600 bg-yellow-100',
-  'รอการยืนยัน': 'text-yellow-400 border-yellow-400 bg-yellow-50',
 };
 
 const statusOptions = ['สถานะคำสั่งซื้อ', 'รอรับออเดอร์', 'กำลังดำเนินการ', 'รอการยืนยัน', 'สำเร็จ', 'ยกเลิก'];
@@ -80,106 +64,63 @@ const OrdersPage = () => {
       {/* Filters */}
       <div className="flex items-center justify-between space-x-4">
         <div className="flex space-x-4">
-          <select
-            className="border rounded p-2"
+          <FilterSelect
+            options={statusOptions}
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-          >
-            {statusOptions.map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </select>
-
-          <select
-            className="border rounded p-2"
+          />
+          <FilterSelect
+            options={categoryOptions}
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            {categoryOptions.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-
-          <select
-            className="border rounded p-2"
+          />
+          <FilterSelect
+            options={typeOptions}
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-          >
-            {typeOptions.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+          />
         </div>
-
-        <div className="relative w-64">    
-          <input
-            type="text"
-            className="border rounded p-2 w-64"
-            placeholder="ค้นหาคำสั่งซื้อ" /*(สถานที่, รหัสคำสั่งซื้อ, ชื่อผู้ใช้)*/
+        <div>
+          <SearchInput
+            placeholder="ค้นหาคำสั่งซื้อ" 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-5 h-5 text-gray-700 text-extrabold absolute right-3 top-1/2 transform -translate-y-1/2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
-        </div>  
+        </div>
       </div>
 
       {/* Orders Table */}
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>สถานที่</TableHead>
-            <TableHead>รหัสคำสั่งซื้อ</TableHead>
-            <TableHead>ประเภท</TableHead>
-            <TableHead>วันที่สั่งซื้อ</TableHead>
-            <TableHead>ชื่อผู้ใช้</TableHead>
-            <TableHead>ราคา</TableHead>
-            <TableHead>สถานะ</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredOrders.map((order, index) => (
-            <TableRow key={index}>
-              <TableCell>{order.place}</TableCell>
-              <TableCell>{order.id}</TableCell>
-              <TableCell>{order.type}</TableCell>
-              <TableCell>{order.date}</TableCell>
-              <TableCell>{order.user}</TableCell>
-              <TableCell>{order.price}</TableCell>
-              <TableActionCell 
-                title={
-                  <span 
-                    className={`inline-block px-2 py-1 text-sm border rounded-lg ${
-                      statusColors[order.status]
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                }
-              >
-              </TableActionCell>
+      <div className="overflow-x-auto">
+        <Table className="min-w-full table-auto">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="px-6 py-3">สถานที่</TableHead>
+              <TableHead className="px-6 py-3">รหัสคำสั่งซื้อ</TableHead>
+              <TableHead className="px-6 py-3">ประเภท</TableHead>
+              <TableHead className="px-6 py-3">วันที่สั่งซื้อ</TableHead>
+              <TableHead className="px-6 py-3">ชื่อผู้ใช้</TableHead>
+              <TableHead className="px-6 py-3">ราคา</TableHead>
+              <TableHead className="px-6 py-3">สถานะ</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredOrders.map((order, index) => (
+              <TableRow key={index}>
+                <TableCell className="px-6 py-4">{order.place}</TableCell>
+                <TableCell className="px-6 py-4">{order.id}</TableCell>
+                <TableCell className="px-6 py-4">{order.type}</TableCell>
+                <TableCell className="px-6 py-4">{order.date}</TableCell>
+                <TableCell className="px-6 py-4">{order.user}</TableCell>
+                <TableCell className="px-6 py-4">{order.price}</TableCell>
+                <TableActionCell className="px-6 py-4">
+                  <StatusBadge status={order.status} />
+                </TableActionCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
 
       {/* Pagination */}
       <div className="flex justify-between items-center mt-4">
@@ -213,7 +154,3 @@ const OrdersPage = () => {
 };
 
 export default OrdersPage;
-
-
-
-

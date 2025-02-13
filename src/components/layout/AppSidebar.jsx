@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import { SidebarMenuBadge } from "../ui/sidebar";
+import logo from "../../assets/images/logo.svg"
 
 const menuItems = {
   header: [{ title: "คำขอ", url: "/inbox", icon: Inbox }],
@@ -62,15 +63,15 @@ const AppSidebar = () => {
     <Sidebar>
       <SidebarHeader>
         <div>
-          <img className="h-12 px-3" src="src/assets/images/logo.svg" alt="" />
+          <img className="h-12 px-3" src={logo} alt="BonBaan" />
         </div>
         <SidebarMenu>
           {menuItems.header.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
+                variant="secondary"
                 asChild
-                className="text-white stroke-white"
-                isActive={location.includes(item.url) ? true : false}
+                isActive={location.includes(item.url)}
               >
                 <Link to={item.url}>
                   <item.icon size={32} />
@@ -90,7 +91,7 @@ const AppSidebar = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    isActive={location.includes(item.url) ? true : false}
+                    isActive={location.includes(item.url)}
                   >
                     <Link to={item.url}>
                       <item.icon size={32} color="#5B5471" />
