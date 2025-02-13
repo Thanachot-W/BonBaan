@@ -50,8 +50,7 @@ const menuItems = {
       ],
     },
     { title: "พูดคุย", url: "/chat", icon: MessageCircle, subMenu: [] },
-    { title: "ผู้ใช้", url: "/users", icon: User, subMenu: [] },
-    { title: "ชำระเงิน", url: "/payment", icon: CreditCard, subMenu: [] },
+    { title: "ผู้ใช้", url: "/users", icon: User, subMenu: [] }
   ],
   footer: [{ title: "ออกจากระบบ", url: "/logout", icon: LogOut }],
 };
